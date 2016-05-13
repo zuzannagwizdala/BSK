@@ -1,16 +1,25 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Home Page</title>
 
-<nav class="top-bar" data-topbar>
-    <ul class="title-area">
-        <li class="name">
-            <h1><a href="/">Ksiegarnia bezpieczna</a></h1>
-        </li>
-    </ul>
-</nav>
-<div>
-    <p>Name: <input type="text" ng-model="firstName"></p>
-    <p>You wrote: {{firstName}}</p>
-    <button>@Html.ActionLink("Zaloguj", "LogIn", "LogInView")</button>
-</div>
+</head>
+<body>
+
+    <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="/">Ksiegarnia bezpieczna</a></h1>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <p>Name: <input type="text" ng-model="firstName"></p>
+        <p>You wrote: {{firstName}}</p>
+        <button>@Html.ActionLink("Zaloguj", "LogIn", "LogInView")</button>
+    </div>
+
+</body>
+</html>
