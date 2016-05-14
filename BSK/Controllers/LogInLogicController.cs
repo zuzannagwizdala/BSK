@@ -10,12 +10,14 @@ using System.Net;
 
 namespace BSK.Controllers
 {
-    public class LogInLogicController : ApiController
+    public class LogInLogicController : Controller
     {
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.AllowAnonymous]
         public HttpResponseMessage Post(LogInZapytanie dane)
         {
-            HttpResponseMessage odpowiedz;
-            odpowiedz = Request.CreateResponse(HttpStatusCode.OK);
+            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            odpowiedz.StatusCode = HttpStatusCode.OK;                 //CreateResponse(HttpStatusCode.OK);
             using (DB baza = new DB())
             {
                 List<Uzytkownik> uzytkownicyWszystko = baza.Uzytkownicy.ToList(); //3
@@ -40,20 +42,24 @@ namespace BSK.Controllers
                                     Rola rola = uzytkownik_role.FirstOrDefault(ur => ur.ID_Roli == sesjeUzytkownika[i].ID_Roli);
                                     List<Rola> wynik = new List<Rola>();
                                     wynik.Add(new Rola { ID_Roli = rola.ID_Roli, Nazwa = rola.Nazwa });
-                                    odpowiedz = Request.CreateResponse(HttpStatusCode.OK, wynik);
+
+                                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                                    odpowiedz.Content = new StringContent(wynik.ToString());
                                     break;
                                 }
                                 //sesja byla, ale juz nie trwa (minal okres waznosci) - zwroc wszystkie role danego uzytkownika
                                 if (i == sesjeUzytkownika.Count - 1)
                                 {
-                                    odpowiedz = Request.CreateResponse(HttpStatusCode.OK, uzytkownik_role);
+                                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                                    odpowiedz.Content = new StringContent(uzytkownik_role.ToString());
                                 }
                             }
                         }
                         else
                         //uzytkownik nie mial nigdy zadnej sesji wiec zwroc wszystkie jego role
                         {
-                            odpowiedz = Request.CreateResponse(HttpStatusCode.OK, uzytkownik_role);
+                            odpowiedz.StatusCode = HttpStatusCode.OK;
+                            odpowiedz.Content = new StringContent(uzytkownik_role.ToString());
                         }
                     }
                     else
@@ -88,8 +94,9 @@ namespace BSK.Controllers
                                     if (sesjeUzytkownika[i].ID_Roli != rola.ID_Roli)
                                     //...i to dla innej roli!!!
                                     {
-                                        return Request.CreateErrorResponse(HttpStatusCode.Conflict,
-                                            "Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.");
+                                        odpowiedz.StatusCode = HttpStatusCode.Conflict;
+                                        odpowiedz.Content = new StringContent("Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.");
+                                        return odpowiedz;
                                     }
                                     else
                                     {
@@ -101,7 +108,7 @@ namespace BSK.Controllers
                                 //ta sesja jest niewazna, wiec przypisujemy jej nowy id sesji
                                 if (i == sesjeUzytkownika.Count - 1)
                                 {
-                                    zawartoscOdpowiedzi.ID_Sesji = HttpContext.Current.Session.SessionID;
+                                    zawartoscOdpowiedzi.ID_Sesji = HttpContext.Session.SessionID;
                                     baza.Sesje.Add(new Sesja
                                     {
                                         ID_Roli = rola.ID_Roli,
@@ -112,14 +119,15 @@ namespace BSK.Controllers
                                 }
                             }
 
-                            odpowiedz = Request.CreateResponse(HttpStatusCode.OK, zawartoscOdpowiedzi);
+                            odpowiedz.StatusCode = HttpStatusCode.OK;
+                            odpowiedz.Content = new StringContent(zawartoscOdpowiedzi.ToString());
                             baza.SaveChanges();
 
                         }
                         else
                         //uzytkownik nie mial wczesniej sesji
                         {
-                            zawartoscOdpowiedzi.ID_Sesji = HttpContext.Current.Session.SessionID;
+                            zawartoscOdpowiedzi.ID_Sesji = HttpContext.Session.SessionID;              //.Current.Session.SessionID;
                             baza.Sesje.Add(new Sesja
                             {
                                 ID_Roli = rola.ID_Roli,
@@ -128,7 +136,8 @@ namespace BSK.Controllers
                                 Data_waznosci = zawartoscOdpowiedzi.Data_waznosci
                             });
                         }
-                        odpowiedz = Request.CreateResponse(HttpStatusCode.OK, zawartoscOdpowiedzi);
+                        odpowiedz.StatusCode = HttpStatusCode.OK;
+                        odpowiedz.Content = new StringContent(zawartoscOdpowiedzi.ToString());
                         baza.SaveChanges();
 
                     }
@@ -136,7 +145,8 @@ namespace BSK.Controllers
                 else
                 // to jest else do pierwszego ifa sprawdzajacego uzytkownika i haslo! (jeszcze z rola ustawiona na null)
                 {
-                    odpowiedz = Request.CreateErrorResponse(HttpStatusCode.Forbidden, "Niepoprawne dane!");
+                    odpowiedz.StatusCode = HttpStatusCode.Conflict;
+                    odpowiedz.Content = new StringContent("Niepoprawne dane!");
                 }
             }
             return odpowiedz;

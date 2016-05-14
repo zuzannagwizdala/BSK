@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - Home Page</title>
 </head>
 <body>
-
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label class="control-label col-sm-2">Login</label>
@@ -26,6 +25,39 @@
             </div>
         </div>
     </form>
-    <script src="~/Scripts/OurScripts/LogIn.js"></script>
+
+    <script type="text/javascript">
+        LogInZapytanie = function(login, password, rola){
+            this.login = login;
+            this.password = password;
+            this.rola = rola;
+        };
+
+        log = {
+            login: '',
+            password: '',
+            rola: null
+        };
+
+        function sendForm() {
+            debugger;
+            log.login = document.getElementById("text");
+            log.password = document.getElementById("pwd");
+
+            //var logInReq = new LogInZapytanie(login, password, null);
+            //var postData = { values: login, password };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Post","LogInView")',
+                data: log,
+                success: function (data) {
+                    alert(data.Result);
+                },
+                dataType: "HttpResponseMessage",
+                traditional: true
+            });
+        }
+    </script>
 </body>
 </html>
