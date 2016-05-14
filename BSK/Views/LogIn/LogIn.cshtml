@@ -27,30 +27,18 @@
     </form>
 
     <script type="text/javascript">
-        LogInZapytanie = function(login, password, rola){
-            this.login = login;
-            this.password = password;
-            this.rola = rola;
-        };
-
-        log = {
-            login: '',
-            password: '',
-            rola: null
-        };
-
         function sendForm() {
             debugger;
-            log.login = document.getElementById("text");
-            log.password = document.getElementById("pwd");
+            var login = document.getElementById("text").value;
+            var haslo = document.getElementById("pwd").value;
+            var rola = 5;
 
-            //var logInReq = new LogInZapytanie(login, password, null);
-            //var postData = { values: login, password };
+            var postData = { login, haslo, rola };
 
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("Post","LogInView")',
-                data: log,
+                url: '@Url.Action("Post","LogIn")',
+                data: postData,
                 success: function (data) {
                     alert(data.Result);
                 },

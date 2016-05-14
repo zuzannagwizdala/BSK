@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace BSK.Controllers
 {
-    public class LogInViewController : Controller
+    public class LogInController : Controller
     {
         // GET: LogInView
         public ActionResult LogIn()
@@ -17,13 +17,8 @@ namespace BSK.Controllers
             return View();
         }
 
-        public HttpResponseMessage Post(string login, string haslo, int? rolaWybrana)
+        public HttpResponseMessage Post(LogInZapytanie dane)
         {
-            LogInZapytanie dane = new LogInZapytanie();
-            dane.Login = login;
-            dane.Haslo = haslo;
-            dane.Rola = rolaWybrana;
-
             HttpResponseMessage odpowiedz = new HttpResponseMessage();
             odpowiedz.StatusCode = HttpStatusCode.OK;                 //CreateResponse(HttpStatusCode.OK);
 
