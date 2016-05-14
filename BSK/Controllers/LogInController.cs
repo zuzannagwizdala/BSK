@@ -24,8 +24,11 @@ namespace BSK.Controllers
 
             using (DB baza = new DB())
             {
+                List<Autor> autorzy = baza.Autorzy.ToList();
+                
                 List<Uzytkownik> uzytkownicyWszystko = baza.Uzytkownicy.ToList(); //3
                 List<Rola> roleWszystko = baza.Rolee.ToList();
+
                 List<Uprawnienie> uprawnieniaWszystko = baza.Uprawnienia.ToList();
                 if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == dane.Haslo)) // Uzytkownik.sha256(dane.Haslo)))
                 {

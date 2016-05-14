@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace BSK.Models
 {
 
 
-    [Table("Autorzy")]
+    [Table("Autorzy", Schema = "public")]
     public class Autor
     {
         [Key]
@@ -28,7 +29,7 @@ namespace BSK.Models
         public virtual List<Ksiazka> Ksiazki { get; set; }
     }
 
-    [Table("Kategorie")]
+    [Table("Kategorie", Schema = "public")]
     public class Kategoria
     {
         [Key]
@@ -44,7 +45,7 @@ namespace BSK.Models
         public virtual List<Ksiazka> Ksiazki { get; set; }
     }
 
-    [Table("Sprzedaze")]
+    [Table("Sprzedaze", Schema = "public")]
     public class Sprzedaz
     {
         [Key]
@@ -55,7 +56,7 @@ namespace BSK.Models
         public DateTime Data_sprzedazy { get; set; }
     }
 
-    [Table("Ksiazki")]
+    [Table("Ksiazki", Schema = "public")]
     public class Ksiazka
     {
         [Key]
@@ -88,7 +89,7 @@ namespace BSK.Models
         public virtual Kategoria Kategoria { get; set; }
     }
 
-    [Table("Dostawy")]
+    [Table("Dostawy", Schema = "public")]
     public class Dostawa
     {
         [Key]
@@ -100,10 +101,10 @@ namespace BSK.Models
 
         [Column("Dostawca")]
         public string Dostawca { get; set; }
-        //public virtual List<Ksiazka> Ksiazki { get; set; }
+        public virtual List<Ksiazka> Ksiazki { get; set; }
     }
 
-    [Table("Sprzedaze_Ksiazki")]
+    [Table("Sprzedaze_Ksiazki", Schema = "public")]
     public class Sprzedaz_Ksiazka
     {
         [Key, Column("ID_Sprzedazy", Order = 1)]
@@ -119,7 +120,7 @@ namespace BSK.Models
         public Ksiazka Ksiazka { get; set; }
     }
 
-    [Table("Dostawy_Ksiazki")]
+    [Table("Dostawy_Ksiazki", Schema = "public")]
     public class Dostawa_Ksiazka
     {
         [Key, Column("ID_Dostawy", Order = 1)]
@@ -135,7 +136,7 @@ namespace BSK.Models
         public Ksiazka Ksiazka { get; set; }
     }
 
-    [Table("Uprawnienia")]
+    [Table("Uprawnienia", Schema = "public")]
     public class Uprawnienie
     {
         [Key]
@@ -151,7 +152,7 @@ namespace BSK.Models
         public virtual List<Uprawnienie_Rola> Uprawnienie_Rola { get; set; }
     }
 
-    [Table("Rolee")]
+    [Table("Rolee", Schema = "public")]
     public class Rola
     {
         [Key]
@@ -165,7 +166,7 @@ namespace BSK.Models
         public virtual List<Uzytkownik_Rola> Uzytkownik_Rola { get; set; }
     }
 
-    [Table("Uzytkownicy")]
+    [Table("Uzytkownicy", Schema = "public")]
     public class Uzytkownik
     {
         [Key]
@@ -197,7 +198,7 @@ namespace BSK.Models
 
     }
 
-    [Table("Sesje")]
+    [Table("Sesje", Schema = "public")]
     public class Sesja
     {
         [Key]
@@ -207,18 +208,18 @@ namespace BSK.Models
         [ForeignKey("Uzytkownik")]
         [Column("ID_Uzytkownika")]
         public int ID_Uzytkownika { get; set; }
-        //public virtual Uzytkownik Uzytkownik { get; set; }
+        public virtual Uzytkownik Uzytkownik { get; set; }
 
         [ForeignKey("Rola")]
         [Column("ID_Roli")]
         public int ID_Roli { get; set; }
-        //public virtual Rola Rola { get; set; }
+        public virtual Rola Rola { get; set; }
 
         [Column("Data_waznosci")]
         public long Data_waznosci { get; set; }
     }
 
-    [Table("Uzytkownicy_Role")]
+    [Table("Uzytkownicy_Role", Schema = "public")]
     public class Uzytkownik_Rola
     {
         [Key, Column("ID_Uzytkownika", Order = 1)]
@@ -231,7 +232,7 @@ namespace BSK.Models
         public Rola Rola { get; set; }
     }
 
-    [Table("Uprawnienia_Role")]
+    [Table("Uprawnienia_Role", Schema = "public")]
     public class Uprawnienie_Rola
     {
         [Key, Column("ID_Uprawnienia", Order = 1)]
@@ -270,9 +271,40 @@ namespace BSK.Models
         public String ID_Sesji { get; set; }
     }
 
+    /*
+     public class DB : DbContext
+     {
+         public DB() : base(nameOrConnectionString: "MonkeyFist") { }
+         public DbSet<Autor> Autorzy { get; set; }
+         public DbSet<Dostawa> Dostawy { get; set; }
+         public DbSet<Kategoria> Kategorie { get; set; }
+         public DbSet<Ksiazka> Ksiazki { get; set; }
+         public DbSet<Uprawnienie> Uprawnienia { get; set; }
+         public DbSet<Rola> Rolee { get; set; }
+         public DbSet<Sesja> Sesje { get; set; }
+         public DbSet<Sprzedaz> Sprzedaze { get; set; }
+         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
+         public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
+         public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
+     } 
+     */
+
+        
+    public class NpgsqlConfiguration : System.Data.Entity.DbConfiguration
+    {
+        public NpgsqlConfiguration()
+        {
+            SetProviderServices("Npgsql", Npgsql.NpgsqlServices.Instance);
+            SetProviderFactory("Npgsql", Npgsql.NpgsqlFactory.Instance);
+            SetDefaultConnectionFactory(new Npgsql.NpgsqlConnectionFactory());
+        }
+    }
+    [DbConfigurationType(typeof(NpgsqlConfiguration))]
     public class DB : DbContext
     {
-        public DB() : base(nameOrConnectionString: "MonkeyFist") { }
+        static String ConnectionString = "Server=127.0.0.1;User ID=postgres;Password=zuzia;Database=Ksiegarnia;syncnotification=false;port=5432";
+        public DB()
+            : base(new NpgsqlConnection(ConnectionString), true) {}
         public DbSet<Autor> Autorzy { get; set; }
         public DbSet<Dostawa> Dostawy { get; set; }
         public DbSet<Kategoria> Kategorie { get; set; }
@@ -285,4 +317,7 @@ namespace BSK.Models
         public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
         public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
     }
+    
 }
+
+
