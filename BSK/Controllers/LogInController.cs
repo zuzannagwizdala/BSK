@@ -17,10 +17,10 @@ namespace BSK.Controllers
             return View();
         }
 
-        public HttpResponseMessage Post(LogInZapytanie dane)
+        [HttpPost]
+        public JsonResult Post(LogInZapytanie dane)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
-            odpowiedz.StatusCode = HttpStatusCode.OK;                 //CreateResponse(HttpStatusCode.OK);
+            JsonResult odpowiedz = new JsonResult();
 
             using (DB baza = new DB())
             {
@@ -33,7 +33,7 @@ namespace BSK.Controllers
                 if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == dane.Haslo)) // Uzytkownik.sha256(dane.Haslo)))
                 {
                     Uzytkownik uzytkownik = uzytkownicyWszystko.First(u => u.Login == dane.Login);
-                    IEnumerable<Rola> uzytkownik_role = roleWszystko.Where(r => uzytkownik.Uzytkownik_Rola.Select(ur => ur.ID_Roli).Contains(r.ID_Roli));
+                    var uzytkownik_role = roleWszystko.Where(r => uzytkownik.Uzytkownik_Rola.Select(ur => ur.ID_Roli).Contains(r.ID_Roli));
 
                     List<Sesja> sesjeUzytkownika = baza.Sesje.Where(s => s.ID_Uzytkownika == uzytkownik.ID_Uzytkownika).ToList();   // wszystkie sesje uzytkownika
                     if (!dane.Rola.HasValue) //logowanie uzytkownika, bez podania roli (pierwszy raz)
@@ -50,23 +50,20 @@ namespace BSK.Controllers
                                     List<Rola> wynik = new List<Rola>();
                                     wynik.Add(new Rola { ID_Roli = rola.ID_Roli, Nazwa = rola.Nazwa });
 
-                                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                                    odpowiedz.Content = new StringContent(wynik.ToString());
+                                    odpowiedz.Data = wynik;
                                     break;
                                 }
                                 //sesja byla, ale juz nie trwa (minal okres waznosci) - zwroc wszystkie role danego uzytkownika
                                 if (i == sesjeUzytkownika.Count - 1)
                                 {
-                                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                                    odpowiedz.Content = new StringContent(uzytkownik_role.ToString());
+                                    odpowiedz.Data = KonwertujRole(uzytkownik_role);
                                 }
                             }
                         }
                         else
                         //uzytkownik nie mial nigdy zadnej sesji wiec zwroc wszystkie jego role
                         {
-                            odpowiedz.StatusCode = HttpStatusCode.OK;
-                            odpowiedz.Content = new StringContent(uzytkownik_role.ToString());
+                            odpowiedz.Data = KonwertujRole(uzytkownik_role);
                         }
                     }
                     else
@@ -101,8 +98,7 @@ namespace BSK.Controllers
                                     if (sesjeUzytkownika[i].ID_Roli != rola.ID_Roli)
                                     //...i to dla innej roli!!!
                                     {
-                                        odpowiedz.StatusCode = HttpStatusCode.Conflict;
-                                        odpowiedz.Content = new StringContent("Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.");
+                                        odpowiedz.Data = "Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.";
                                         return odpowiedz;
                                     }
                                     else
@@ -126,8 +122,7 @@ namespace BSK.Controllers
                                 }
                             }
 
-                            odpowiedz.StatusCode = HttpStatusCode.OK;
-                            odpowiedz.Content = new StringContent(zawartoscOdpowiedzi.ToString());
+                            odpowiedz.Data = zawartoscOdpowiedzi;
                             baza.SaveChanges();
 
                         }
@@ -143,8 +138,7 @@ namespace BSK.Controllers
                                 Data_waznosci = zawartoscOdpowiedzi.Data_waznosci
                             });
                         }
-                        odpowiedz.StatusCode = HttpStatusCode.OK;
-                        odpowiedz.Content = new StringContent(zawartoscOdpowiedzi.ToString());
+                        odpowiedz.Data = zawartoscOdpowiedzi;
                         baza.SaveChanges();
 
                     }
@@ -152,12 +146,10 @@ namespace BSK.Controllers
                 else
                 // to jest else do pierwszego ifa sprawdzajacego uzytkownika i haslo! (jeszcze z rola ustawiona na null)
                 {
-                    odpowiedz.StatusCode = HttpStatusCode.Conflict;
-                    odpowiedz.Content = new StringContent("Niepoprawne dane!");
+                    odpowiedz.Data = "Niepoprawne dane!";
                 }
             }
             return odpowiedz;
-
         }
 
         private static readonly DateTime znak = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -166,6 +158,16 @@ namespace BSK.Controllers
         {
             TimeSpan stempel = teraz - znak;
             return stempel.Ticks;
+        }
+
+        private IEnumerable<Rola> KonwertujRole(IEnumerable<Rola> role)
+        {
+            var noweRole = new List<Rola>();
+            foreach (var rola in role)
+            {
+                noweRole.Add(new Rola { ID_Roli = rola.ID_Roli, Nazwa = rola.Nazwa });
+            }
+            return noweRole;
         }
     }
 }
