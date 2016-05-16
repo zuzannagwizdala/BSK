@@ -35,6 +35,8 @@ namespace BSK.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "kategorie_select")]
         public JsonResult Get(int id)
         {
@@ -55,6 +57,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "kategorie_select")]
         public JsonResult Get()
         {
@@ -79,6 +83,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        [HttpPut]
         [MyAuthorize(Roles = "kategorie_update")]
         public JsonResult Put(Kategoria value)
         {
@@ -101,6 +106,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpPost]
         [MyAuthorize(Roles = "kategorie_insert")]
         public JsonResult Post(Kategoria value)
         {
@@ -121,6 +128,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpDelete]
         [MyAuthorize(Roles = "kategorie_delete")]
         public JsonResult Delete(int id)
         {

@@ -35,6 +35,8 @@ namespace BSK.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "ksiazki_select")]
         public JsonResult Get(int id)
         {
@@ -58,6 +60,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "ksiazki_select")]
         public JsonResult Get()
         {
@@ -83,6 +87,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        [HttpPut]
         [MyAuthorize(Roles = "ksiazki_update")]
         public JsonResult Put(Ksiazka value)
         {
@@ -110,6 +115,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpPost]
         [MyAuthorize(Roles = "ksiazki_insert")]
         public JsonResult Post(Ksiazka value)
         {
@@ -132,6 +139,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpDelete]
         [MyAuthorize(Roles = "ksiazki_delete")]
         public JsonResult Delete(int id)
         {

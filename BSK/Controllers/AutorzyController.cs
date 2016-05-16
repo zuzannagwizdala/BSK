@@ -37,6 +37,7 @@ namespace BSK.Controllers
             return View();
         }
 
+        [HttpGet]
         [MyAuthorize(Roles = "autorzy_select")]
         public JsonResult Get(int id)
         {
@@ -57,6 +58,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "autorzy_select")]
         public JsonResult Get()
         {
@@ -81,6 +84,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        [HttpPut]
         [MyAuthorize(Roles = "autorzy_update")]
         public JsonResult Put(Autor value)
         {
@@ -102,6 +106,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpPost]
         [MyAuthorize(Roles = "autorzy_insert")]
         public JsonResult Post(Autor value)
         {
@@ -121,6 +127,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpDelete]
         [MyAuthorize(Roles = "autorzy_delete")]
         public JsonResult Delete(int id)
         {

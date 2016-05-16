@@ -36,6 +36,7 @@ namespace BSK.Controllers
             return View();
         }
 
+        [HttpGet]
         public JsonResult Get(int id)
         {
             JsonResult odpowiedz = new JsonResult();
@@ -56,6 +57,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpGet]
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
@@ -80,6 +83,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        [HttpPut]
         public JsonResult Put(Uprawnienie value)
         {
             JsonResult odpowiedz = new JsonResult();
@@ -101,6 +105,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpPost]
         public JsonResult Post(Uprawnienie value)
         {
             JsonResult odpowiedz = new JsonResult();
@@ -120,6 +126,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpDelete]
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();

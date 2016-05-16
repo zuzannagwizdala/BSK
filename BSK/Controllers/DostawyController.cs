@@ -34,6 +34,8 @@ namespace BSK.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "dostawy_select")]
         public JsonResult Get(int id)
         {
@@ -54,6 +56,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpGet]
         [MyAuthorize(Roles = "dostawy_select")]
         public JsonResult Get()
         {
@@ -74,6 +78,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        [HttpPut]
         [MyAuthorize(Roles = "dostawy_update")]
         public JsonResult Put(Dostawa value)
         {
@@ -88,7 +93,7 @@ namespace BSK.Controllers
                     dostawa.Dostawca = value.Dostawca;
                     dostawa.Ksiazki = value.Ksiazki;
                     baza.SaveChanges();
-                    
+
                 }
             }
             catch (Exception ex)
@@ -97,6 +102,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpPost]
         [MyAuthorize(Roles = "dostawy_insert")]
         public JsonResult Post(Dostawa value)
         {
@@ -116,6 +123,8 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
+
+        [HttpDelete]
         [MyAuthorize(Roles = "dostawy_delete")]
         public JsonResult Delete(int id)
         {
