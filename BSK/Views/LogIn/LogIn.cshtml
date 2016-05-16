@@ -16,7 +16,7 @@
             </ul>
         </div>
     </nav>
-    <form class="form-horizontal" role="form">
+    
         <div class="form-group" id="login">
             <label class="control-label col-sm-2">Login</label>
             <div class="col-sm-10">
@@ -33,14 +33,16 @@
             <label class="control-label col-sm-2" for="wybor_roli">Wybierz rolę:</label>
         </div>
         <div id="pusty"></div>
-        <div id="komunikat" style="display:none"></div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" onclick="przetworzForm()">Zaloguj</button>
+        <form id="myform">
+            <div id="komunikat" style="display:none"></div>
+        </form>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" onclick="przetworzForm()">Zaloguj</button>
+                </div>
             </div>
-        </div>
-        
-    </form>
+    
     <script type="text/javascript">
         function przetworzForm() {
             var login = document.getElementById("text").value;
@@ -49,13 +51,20 @@
             var postData = { login, haslo, rola };
             var tablica_rol = new Array();
 
+            var wartosc = $("#myform").find("input[type='radio']:checked").get();
+            var zmienna = wartosc[0];
+            if (zmienna != undefined)
+            {
+                zmienna = zmienna.id;
+            }
+            debugger;
+
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Post","LogIn")',
                 data: postData,
                 success: function (data) {
                     console.log(data);
-                    debugger;
                     if (data == "Niepoprawne dane!") {
                         document.getElementById("komunikat").style.display = "block";
                         document.getElementById("komunikat").innerHTML = data;
@@ -70,19 +79,18 @@
                     {
                         tablica_rol[i] = data[i];
                     }
-                    debugger;
                     document.getElementById("pusty").style.clear = "both";
                     document.getElementById("komunikat").style.display = "block";
                     document.getElementById("wybor_roli").style.display = "block";
                     document.getElementById("komunikat").style.float = "left";
-                    var stala = "<div class='radio'><label><input type='radio' name='optradio' id='";
+                    var stala = "<input type='radio' id='";
                     var radio = "";
                     for (j = 0; j < tablica_rol.length; j++) {
                         radio += stala;
                         radio += tablica_rol[j].ID_Roli;
                         radio += "'>";
                         radio += tablica_rol[j].Nazwa;
-                        radio += "</label></div>";
+                        radio += "</input>";
                     }
 
                     document.getElementById("komunikat").innerHTML = radio;
@@ -95,8 +103,8 @@
                             debugger;
                             break;
                         }
-                    }
-                    przetworzForm();
+                    }             
+                    //var wartosc = $("#myform").find("input[type='radio']:checked").val();
                 },
             });
         }
