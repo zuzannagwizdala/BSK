@@ -17,7 +17,7 @@ namespace BSK.Controllers
             return View();
         }
 
-        public ActionResult delete()
+        public ActionResult del()
         {
             return View();
         }

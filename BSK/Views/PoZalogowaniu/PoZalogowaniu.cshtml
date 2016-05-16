@@ -100,7 +100,7 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var link = '<a href="';
+                var link = '<a style="color:white;" href="';
                 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
                 if(instrukcja_tabela[1]=="autorzy")
@@ -110,7 +110,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Autorzy/delete/">';
+                        link += '/Autorzy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -129,7 +129,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Ksiazki/delete/">';
+                        link += '/Ksiazki/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -148,7 +148,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Kategorie/delete/">';
+                        link += '/Kategorie/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -167,7 +167,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Dostawy/delete/">';
+                        link += '/Dostawy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -185,7 +185,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Sprzedaze/delete/">';
+                        link += '/Sprzedaze/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -203,7 +203,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Uzytkownicy/delete/">';
+                        link += '/Uzytkownicy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -221,7 +221,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Role/delete/">';
+                        link += '/Role/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -239,7 +239,7 @@
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Uprawnienia/delete/">';
+                        link += '/Uprawnienia/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
@@ -253,10 +253,11 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
+                debugger;
             }
 
 
-            debugger;
+            
         }
     </script>
 </body>
