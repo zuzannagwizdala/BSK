@@ -1,0 +1,263 @@
+﻿
+@{
+    ViewBag.Title = "PoZalogowaniu";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body onload="func()">
+    
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="float:left">Ksiegarnia bezpieczna</a>
+                <div id="powitanie"></div>
+            </div>
+        </div>
+
+            <div align="center" style="margin-left:300px;">
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Autorzy</h4>
+                    <div id="insert.autorzy" style="color:black">Dodaj</div>
+                    <div id="delete.autorzy" style="color:black">Usuń</div>
+                    <div id="update.autorzy" style="color:black">Zaktualizuj</div>
+                    <div id="select.autorzy" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Książki</h4>
+                    <div id="insert.ksiazki" style="color:black">Dodaj</div>
+                    <div id="delete.ksiazki" style="color:black">Usuń</div>
+                    <div id="update.ksiazki" style="color:black">Zaktualizuj</div>
+                    <div id="select.ksiazki" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Kategorie</h4>
+                    <div id="insert.kategorie" style="color:black">Dodaj</div>
+                    <div id="delete.kategorie" style="color:black">Usuń</div>
+                    <div id="update.kategorie" style="color:black">Zaktualizuj</div>
+                    <div id="select.kategorie" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Dostawy</h4>
+                    <div id="insert.dostawy" style="color:black">Dodaj</div>
+                    <div id="delete.dostawy" style="color:black">Usuń</div>
+                    <div id="update.dostawy" style="color:black">Zaktualizuj</div>
+                    <div id="select.dostawy" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Sprzedaże</h4>
+                    <div id="insert.sprzedaze" style="color:black">Dodaj</div>
+                    <div id="delete.sprzedaze" style="color:black">Usuń</div>
+                    <div id="update.sprzedaze" style="color:black">Zaktualizuj</div>
+                    <div id="select.sprzedaze" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Użytkownicy</h4>
+                    <div id="insert.uzytkownicy" style="color:black">Dodaj</div>
+                    <div id="delete.uzytkownicy" style="color:black">Usuń</div>
+                    <div id="update.uzytkownicy" style="color:black">Zaktualizuj</div>
+                    <div id="select.uzytkownicy" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Role</h4>
+                    <div id="insert.role" style="color:black">Dodaj</div>
+                    <div id="delete.role" style="color:black">Usuń</div>
+                    <div id="update.role" style="color:black">Zaktualizuj</div>
+                    <div id="select.role" style="color:black">Przejrzyj</div>
+                </div>
+                <div style="float:left; padding:10px;">
+                    <h4 style="color:#808080">Uprawnienia</h4>
+                    <div id="insert.uprawnienia" style="color:black">Dodaj</div>
+                    <div id="delete.uprawnienia" style="color:black">Usuń</div>
+                    <div id="update.uprawnienia" style="color:black">Zaktualizuj</div>
+                    <div id="select.uprawnienia" style="color:black">Przejrzyj</div>
+                </div>
+            </div>
+        <div style="clear:both"></div>
+    </nav>
+    <div>Wybierz co chcesz dalej zrobić.</div>
+    
+
+
+    <script type="text/javascript">
+        function func(){
+            var a = "";
+            a = '@ViewBag.Message';
+            var res = a.split("-");
+            var nazwa_uzytkownika = res[0];
+            document.getElementById("powitanie").innerHTML = "Witaj, " + nazwa_uzytkownika;
+            document.getElementById("powitanie").style.color = "white";
+            document.getElementById("powitanie").style.marginTop = "15px";
+            document.getElementById("powitanie").style.marginLeft = "15px";
+
+            var uprawnienia = res[1];
+            var tablica_uprawnien = uprawnienia.split(";");
+            tablica_uprawnien.pop();
+            for (i = 0; i < tablica_uprawnien.length; i++)
+            {
+                var link = '<a href="';
+                
+                var instrukcja_tabela = tablica_uprawnien[i].split(".");
+                if(instrukcja_tabela[1]=="autorzy")
+                {
+                    if(instrukcja_tabela[0]=="insert"){
+                        link += '/Autorzy/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Autorzy/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Autorzy/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Autorzy/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "ksiazki")
+                {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Ksiazki/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Ksiazki/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Ksiazki/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Ksiazki/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "kategorie")
+                {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Kategorie/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Kategorie/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Kategorie/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Kategorie/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "dostawy")
+                {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Dostawy/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Dostawy/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Dostawy/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Dostawy/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "sprzedaze") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Sprzedaze/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Sprzedaze/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Sprzedaze/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Sprzedaze/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "uzytkownicy") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Uzytkownicy/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Uzytkownicy/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Uzytkownicy/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Uzytkownicy/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "role") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Role/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Role/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Role/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Role/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "uprawnienia") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += '/Uprawnienia/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += '/Uprawnienia/delete/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += '/Uprawnienia/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += '/Uprawnienia/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                document.getElementById(tablica_uprawnien[i]).innerHTML = link;
+                document.getElementById(tablica_uprawnien[i]).style.color = "white";
+            }
+
+
+            debugger;
+        }
+    </script>
+</body>
+</html>

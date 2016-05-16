@@ -231,6 +231,7 @@
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\LogOutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PoZalogowaniuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SprzedazeController.cs" />
     <Compile Include="Controllers\UprawnieniaController.cs" />
@@ -308,19 +309,44 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\LogIn\LogIn.cshtml" />
+    <Content Include="Views\PoZalogowaniu\PoZalogowaniu.cshtml" />
+    <Content Include="Views\Autorzy\insert.cshtml" />
+    <Content Include="Views\Autorzy\update.cshtml" />
+    <Content Include="Views\Autorzy\delete.cshtml" />
+    <Content Include="Views\Autorzy\select.cshtml" />
+    <Content Include="Views\Dostawy\delete.cshtml" />
+    <Content Include="Views\Dostawy\insert.cshtml" />
+    <Content Include="Views\Dostawy\select.cshtml" />
+    <Content Include="Views\Dostawy\update.cshtml" />
+    <Content Include="Views\Kategorie\delete.cshtml" />
+    <Content Include="Views\Kategorie\insert.cshtml" />
+    <Content Include="Views\Kategorie\select.cshtml" />
+    <Content Include="Views\Kategorie\update.cshtml" />
+    <Content Include="Views\Ksiazki\delete.cshtml" />
+    <Content Include="Views\Ksiazki\insert.cshtml" />
+    <Content Include="Views\Ksiazki\select.cshtml" />
+    <Content Include="Views\Ksiazki\update.cshtml" />
+    <Content Include="Views\Role\delete.cshtml" />
+    <Content Include="Views\Role\insert.cshtml" />
+    <Content Include="Views\Role\select.cshtml" />
+    <Content Include="Views\Role\update.cshtml" />
+    <Content Include="Views\Sprzedaze\delete.cshtml" />
+    <Content Include="Views\Sprzedaze\insert.cshtml" />
+    <Content Include="Views\Sprzedaze\select.cshtml" />
+    <Content Include="Views\Sprzedaze\update.cshtml" />
+    <Content Include="Views\Uprawnienia\select.cshtml" />
+    <Content Include="Views\Uprawnienia\insert.cshtml" />
+    <Content Include="Views\Uprawnienia\update.cshtml" />
+    <Content Include="Views\Uprawnienia\delete.cshtml" />
+    <Content Include="Views\Uzytkownicy\delete.cshtml" />
+    <Content Include="Views\Uzytkownicy\insert.cshtml" />
+    <Content Include="Views\Uzytkownicy\select.cshtml" />
+    <Content Include="Views\Uzytkownicy\update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\OurScripts\" />
-    <Folder Include="Views\Autorzy\" />
-    <Folder Include="Views\Dostawy\" />
-    <Folder Include="Views\Kategorie\" />
-    <Folder Include="Views\Ksiazki\" />
     <Folder Include="Views\LogOut\" />
-    <Folder Include="Views\Role\" />
-    <Folder Include="Views\Sprzedaze\" />
-    <Folder Include="Views\Uprawnienia\" />
-    <Folder Include="Views\Uzytkownicy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

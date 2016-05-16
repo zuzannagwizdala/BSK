@@ -11,6 +11,29 @@ namespace BSK.Controllers
 {
     public class DostawyController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult delete()
+        {
+            return View();
+        }
+
+        public ActionResult update()
+        {
+            return View();
+        }
+
+        public ActionResult select()
+        {
+            return View();
+        }
+
+        public ActionResult insert()
+        {
+            return View();
+        }
         [MyAuthorize(Roles = "dostawy_select")]
         public JsonResult Get(int id)
         {

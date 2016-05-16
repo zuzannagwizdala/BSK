@@ -17,6 +17,26 @@ namespace BSK.Controllers
             return View();
         }
 
+        public ActionResult delete()
+        {
+            return View();
+        }
+
+        public ActionResult update()
+        {
+            return View();
+        }
+
+        public ActionResult select()
+        {
+            return View();
+        }
+
+        public ActionResult insert()
+        {
+            return View();
+        }
+
         [MyAuthorize(Roles = "autorzy_select")]
         public JsonResult Get(int id)
         {
