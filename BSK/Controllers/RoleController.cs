@@ -18,9 +18,9 @@ namespace BSK.Controllers
         }
 
         [MyAuthorize(Roles = "role_select")]
-        public HttpResponseMessage Get(int id)
+        public JsonResult Get(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -36,22 +36,20 @@ namespace BSK.Controllers
                     }
                     role.Uprawnienie_Rola = rolesPermissions;
                     role.Uprawnienie_Rola.Clear();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(role.ToString());
+                    
+                    odpowiedz.Data = role.ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "role_select")]
-        public HttpResponseMessage Get()
+        public JsonResult Get()
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -70,23 +68,21 @@ namespace BSK.Controllers
                         role.Uprawnienie_Rola = rolesPermissions;
                         role.Uzytkownik_Rola.Clear();
                     }
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(roles.OrderBy(a => a.ID_Roli).ToString());
+                    
+                    odpowiedz.Data = roles.OrderBy(a => a.ID_Roli).ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
 
         [MyAuthorize(Roles = "role_update")]
-        public HttpResponseMessage Put(Rola value)
+        public JsonResult Put(Rola value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -119,21 +115,18 @@ namespace BSK.Controllers
                     }
                     baza.Uprawnienia_Role.AddRange(rpToAdd);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "role_insert")]
-        public HttpResponseMessage Post(Rola value)
+        public JsonResult Post(Rola value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -150,21 +143,19 @@ namespace BSK.Controllers
                     }
                     baza.Uprawnienia_Role.AddRange(rpToAdd);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                    
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "role_delete")]
-        public HttpResponseMessage Delete(int id)
+        public JsonResult Delete(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -174,14 +165,11 @@ namespace BSK.Controllers
                     var rolesPermissions = baza.Uprawnienia_Role.Where(r => r.ID_Roli == id);
                     baza.Uprawnienia_Role.RemoveRange(rolesPermissions);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }

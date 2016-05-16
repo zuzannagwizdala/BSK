@@ -12,53 +12,49 @@ namespace BSK.Controllers
     public class DostawyController : Controller
     {
         [MyAuthorize(Roles = "dostawy_select")]
-        public HttpResponseMessage Get(int id)
+        public JsonResult Get(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
                 using (DB baza = new DB())
                 {
                     var dostawa = baza.Dostawy.FirstOrDefault(k => k.ID_Dostawy == id);
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(dostawa.ToString());
+                    odpowiedz.Data = dostawa.ToString();
 
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "dostawy_select")]
-        public HttpResponseMessage Get()
+        public JsonResult Get()
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
                 using (DB baza = new DB())
                 {
                     var dostawy = baza.Dostawy.ToList();
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent((dostawy.OrderBy(a => a.ID_Dostawy)).ToString());
+                    odpowiedz.Data = (dostawy.OrderBy(a => a.ID_Dostawy)).ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
 
         [MyAuthorize(Roles = "dostawy_update")]
-        public HttpResponseMessage Put(Dostawa value)
+        public JsonResult Put(Dostawa value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -69,21 +65,19 @@ namespace BSK.Controllers
                     dostawa.Dostawca = value.Dostawca;
                     dostawa.Ksiazki = value.Ksiazki;
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                    
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "dostawy_insert")]
-        public HttpResponseMessage Post(Dostawa value)
+        public JsonResult Post(Dostawa value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -91,21 +85,18 @@ namespace BSK.Controllers
                 {
                     baza.Dostawy.Add(value);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "dostawy_delete")]
-        public HttpResponseMessage Delete(int id)
+        public JsonResult Delete(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -113,13 +104,11 @@ namespace BSK.Controllers
                 {
                     baza.Dostawy.Remove(baza.Dostawy.FirstOrDefault(k => k.ID_Dostawy == id));
                     baza.SaveChanges();
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }

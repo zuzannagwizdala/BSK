@@ -17,9 +17,9 @@ namespace BSK.Controllers
             return View();
         }
         [MyAuthorize(Roles = "kategorie_select")]
-        public HttpResponseMessage Get(int id)
+        public JsonResult Get(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -27,21 +27,19 @@ namespace BSK.Controllers
                 {
                     var kategoria = baza.Kategorie.FirstOrDefault(k => k.ID_Kategorii == id);
                     kategoria.Ksiazki.Clear();
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(kategoria.ToString());
+                    odpowiedz.Data = kategoria.ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "kategorie_select")]
-        public HttpResponseMessage Get()
+        public JsonResult Get()
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -52,22 +50,20 @@ namespace BSK.Controllers
                     {
                         kategorie[index].Ksiazki.Clear();
                     }
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent((kategorie.OrderBy(a => a.ID_Kategorii)).ToString());
+                    odpowiedz.Data = (kategorie.OrderBy(a => a.ID_Kategorii)).ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
 
         [MyAuthorize(Roles = "kategorie_update")]
-        public HttpResponseMessage Put(Kategoria value)
+        public JsonResult Put(Kategoria value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -77,21 +73,19 @@ namespace BSK.Controllers
                     kategoria.Nazwa = value.Nazwa;
                     kategoria.Opis = value.Opis;
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                    
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "kategorie_insert")]
-        public HttpResponseMessage Post(Kategoria value)
+        public JsonResult Post(Kategoria value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -99,21 +93,19 @@ namespace BSK.Controllers
                 {
                     baza.Kategorie.Add(value);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                    
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
         [MyAuthorize(Roles = "kategorie_delete")]
-        public HttpResponseMessage Delete(int id)
+        public JsonResult Delete(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -121,14 +113,12 @@ namespace BSK.Controllers
                 {
                     baza.Kategorie.Remove(baza.Kategorie.FirstOrDefault(k => k.ID_Kategorii == id));
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                   
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }

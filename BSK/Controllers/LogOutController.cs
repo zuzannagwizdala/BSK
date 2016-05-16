@@ -16,9 +16,11 @@ namespace BSK.Controllers
         {
             return View();
         }
-        public HttpResponseMessage Post(LogOutZapytanie dane)
+
+        [HttpPost]
+        public JsonResult Post(LogOutZapytanie dane)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
             using (DB baza = new DB())
             {
                 if (baza.Sesje.Any(s => s.ID_Sesji == dane.ID_Sesji))
@@ -27,7 +29,7 @@ namespace BSK.Controllers
                     baza.Sesje.Remove(sesja);
                     baza.SaveChanges();
                 }
-                odpowiedz.StatusCode = HttpStatusCode.OK;
+                //odpowiedz.StatusCode = HttpStatusCode.OK;
             }
             return odpowiedz;
         }

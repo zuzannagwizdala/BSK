@@ -17,9 +17,9 @@ namespace BSK.Controllers
             return View();
         }
 
-        public HttpResponseMessage Get(int id)
+        public JsonResult Get(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -27,21 +27,19 @@ namespace BSK.Controllers
                 {
                     var uprawnienie = baza.Uprawnienia.FirstOrDefault(k => k.ID_Uprawnienia == id);
                     uprawnienie.Uprawnienie_Rola.Clear();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(uprawnienie.ToString());
+                    
+                    odpowiedz.Data = uprawnienie.ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
-        public HttpResponseMessage Get()
+        public JsonResult Get()
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -52,22 +50,20 @@ namespace BSK.Controllers
                     {
                         uprawnienia[index].Uprawnienie_Rola.Clear();
                     }
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
-                    odpowiedz.Content = new StringContent(uprawnienia.OrderBy(a => a.ID_Uprawnienia).ToString());
+                    
+                    odpowiedz.Data = uprawnienia.OrderBy(a => a.ID_Uprawnienia).ToString();
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
 
-        public HttpResponseMessage Put(Uprawnienie value)
+        public JsonResult Put(Uprawnienie value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -78,19 +74,17 @@ namespace BSK.Controllers
                     permission.Instrukcja = permission.Instrukcja;
                     baza.SaveChanges();
                     
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
-        public HttpResponseMessage Post(Uprawnienie value)
+        public JsonResult Post(Uprawnienie value)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -98,20 +92,18 @@ namespace BSK.Controllers
                 {
                     baza.Uprawnienia.Add(value);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
+                    
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
-        public HttpResponseMessage Delete(int id)
+        public JsonResult Delete(int id)
         {
-            HttpResponseMessage odpowiedz = new HttpResponseMessage();
+            JsonResult odpowiedz = new JsonResult();
 
             try
             {
@@ -121,14 +113,11 @@ namespace BSK.Controllers
                     var rolesPermissions = baza.Uprawnienia_Role.Where(r => r.ID_Uprawnienia == id);
                     baza.Uprawnienia_Role.RemoveRange(rolesPermissions);
                     baza.SaveChanges();
-
-                    odpowiedz.StatusCode = HttpStatusCode.OK;
                 }
             }
             catch (Exception ex)
             {
-                odpowiedz.StatusCode = HttpStatusCode.BadRequest;
-                odpowiedz.Content = new StringContent(ex.InnerException.ToString());
+                odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
         }
