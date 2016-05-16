@@ -1,6 +1,7 @@
 ﻿using BSK.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -200,6 +201,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Uzytkownik> KonwertujUzytkownikow(DbSet<Uzytkownik> uzytkownicy)
+        {
+            var nowe = new List<Uzytkownik>();
+            foreach (var uzytkownik in uzytkownicy)
+            {
+                nowe.Add(new Uzytkownik { ID_Uzytkownika = uzytkownik.ID_Uzytkownika, Login = uzytkownik.Login, Haslo = uzytkownik.Haslo });
+            }
+            return nowe;
         }
     }
 }

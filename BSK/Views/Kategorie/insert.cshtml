@@ -2,6 +2,72 @@
 @{
     ViewBag.Title = "insert";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Dodawanie kategorii</h2>
+    <button type="button" onclick="func()">Wyświetl listę kategorii</button>
+    <div id="lista_kategorii"></div>
+    <br />
 
-<h2>insert</h2>
+    Podaj dane:
+    <div id="aktualizacja" style="display:block">
+        Nazwa: <input type="text" id="nazwa" />
+        Opis: <input type="text" id="opis" />
+        <button type="button" onclick="dodaj()">Dodaj</button>
+    </div>
+    <script type="text/javascript">
+
+        function func() {
+            var kategorie = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Kategorie")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        kategorie[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa - Opis</li>";
+                    for (i = 0; i < kategorie.length ; i++) {
+                        lista += "<li>";
+                        lista += kategorie[i].ID_Kategorii.toString() + " - " + kategorie[i].Nazwa + " - " + kategorie[i].Opis + "</li>";
+                    }
+                    document.getElementById("lista_kategorii").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function dodaj() {
+            var nazwa = document.getElementById("nazwa").value;
+            var opis = document.getElementById("opis").value;
+
+            var postData = { nazwa, opis };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Post", "Autorzy")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("insert", "Kategorie")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
+
 

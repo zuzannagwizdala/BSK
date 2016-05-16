@@ -89,7 +89,7 @@ namespace BSK.Controllers
         public JsonResult Put(Autor value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -112,7 +112,7 @@ namespace BSK.Controllers
         public JsonResult Post(Autor value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())

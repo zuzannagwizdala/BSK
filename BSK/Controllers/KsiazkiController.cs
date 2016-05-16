@@ -1,6 +1,7 @@
 ﻿using BSK.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -160,6 +161,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Ksiazka> KonwertujKsiazki(DbSet<Ksiazka> ksiazki)
+        {
+            var nowe = new List<Ksiazka>();
+            foreach (var ksiazka in ksiazki)
+            {
+                nowe.Add(new Ksiazka { ID_Ksiazki = ksiazka.ID_Ksiazki, ID_Autora = ksiazka.ID_Autora, ID_Kategorii = ksiazka.ID_Kategorii });
+            }
+            return nowe;
         }
     }
 }

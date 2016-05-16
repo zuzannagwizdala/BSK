@@ -1,6 +1,7 @@
 ﻿using BSK.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -147,6 +148,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Uprawnienie> KonwertujUprawnienia(DbSet<Uprawnienie> uprawnienia)
+        {
+            var nowe = new List<Uprawnienie>();
+            foreach (var uprawnienie in uprawnienia)
+            {
+                nowe.Add(new Uprawnienie { ID_Uprawnienia = uprawnienie.ID_Uprawnienia, Instrukcja = uprawnienie.Instrukcja, Nazwa_tabeli = uprawnienie.Nazwa_tabeli });
+            }
+            return nowe;
         }
     }
 }

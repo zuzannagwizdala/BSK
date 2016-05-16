@@ -1,6 +1,7 @@
 ﻿using BSK.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -47,7 +48,6 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var kategoria = baza.Kategorie.FirstOrDefault(k => k.ID_Kategorii == id);
-                    kategoria.Ksiazki.Clear();
                     odpowiedz.Data = kategoria.ToString();
                 }
             }
@@ -68,12 +68,8 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    var kategorie = baza.Kategorie.ToList();
-                    for (int index = 0; index < kategorie.Count; index++)
-                    {
-                        kategorie[index].Ksiazki.Clear();
-                    }
-                    odpowiedz.Data = (kategorie.OrderBy(a => a.ID_Kategorii)).ToString();
+                    var kategorie = baza.Kategorie;
+                    odpowiedz.Data = KonwertujKategorie(kategorie);
                 }
             }
             catch (Exception ex)
@@ -149,6 +145,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Kategoria> KonwertujKategorie(DbSet<Kategoria> kategorie)
+        {
+            var nowe = new List<Kategoria>();
+            foreach (var kat in kategorie)
+            {
+                nowe.Add(new Kategoria { ID_Kategorii = kat.ID_Kategorii, Nazwa = kat.Nazwa, Opis = kat.Opis });
+            }
+            return nowe;
         }
     }
 }

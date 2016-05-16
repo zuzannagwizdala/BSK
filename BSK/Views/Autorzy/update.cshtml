@@ -59,9 +59,9 @@
         function zaktualizuj() {
             var imie = document.getElementById("imie").value;
             var nazwisko = document.getElementById("nazwisko").value;
-            var identyfikator = document.getElementById("identyfikator").value;
+            var ID_Autora = parseInt(document.getElementById("identyfikator").value);
             debugger;
-            var postData = { identyfikator, imie, nazwisko };
+            var postData = { ID_Autora, imie, nazwisko };
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Put", "Autorzy")',

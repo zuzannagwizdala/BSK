@@ -1,6 +1,7 @@
 ﻿using BSK.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -199,6 +200,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Rola> KonwertujRole(DbSet<Rola> role)
+        {
+            var nowe = new List<Rola>();
+            foreach (var rola in role)
+            {
+                nowe.Add(new Rola { ID_Roli = rola.ID_Roli, Nazwa = rola.Nazwa });		//tutaj jeszcze powinny byc tabele wiele do wiele
+            }
+            return nowe;
         }
     }
 }
