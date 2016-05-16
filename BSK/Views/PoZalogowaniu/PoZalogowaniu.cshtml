@@ -70,13 +70,6 @@
                     <div id="update.role" style="color:black">Zaktualizuj</div>
                     <div id="select.role" style="color:black">Przejrzyj</div>
                 </div>
-                <div style="float:left; padding:10px;">
-                    <h4 style="color:#808080">Uprawnienia</h4>
-                    <div id="insert.uprawnienia" style="color:black">Dodaj</div>
-                    <div id="delete.uprawnienia" style="color:black">Usuń</div>
-                    <div id="update.uprawnienia" style="color:black">Zaktualizuj</div>
-                    <div id="select.uprawnienia" style="color:black">Przejrzyj</div>
-                </div>
             </div>
         <div style="clear:both"></div>
     </nav>
@@ -230,24 +223,6 @@
                     }
                     else if (instrukcja_tabela[0] == "select") {
                         link += '/Role/select/">';
-                        link += "Przeglądaj</a>";
-                    }
-                }
-                else if (instrukcja_tabela[1] == "uprawnienia") {
-                    if (instrukcja_tabela[0] == "insert") {
-                        link += '/Uprawnienia/insert/">';
-                        link += "Dodaj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Uprawnienia/del/">';
-                        link += "Usuń</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "update") {
-                        link += '/Uprawnienia/update/">';
-                        link += "Aktualizuj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "select") {
-                        link += '/Uprawnienia/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }

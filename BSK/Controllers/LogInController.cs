@@ -152,6 +152,8 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
+        
+
         private static readonly DateTime znak = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static long konwertujNaStempel(DateTime teraz)

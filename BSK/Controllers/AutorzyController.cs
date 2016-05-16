@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using BSK.Controllers;
+using System.Data.Entity;
 
 namespace BSK.Controllers
 {
@@ -48,8 +50,9 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var autor = baza.Autorzy.FirstOrDefault(k => k.ID_Autora == id);
-                    autor.Ksiazki.Clear();
-                    odpowiedz.Data = autor.ToString();
+                    List<Autor> autorzy = new List<Autor>();
+                    autorzy.Add(autor);
+                    odpowiedz.Data = autorzy;
                 }
             }
             catch (Exception ex)
@@ -59,7 +62,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpGet]
+        [HttpPost]
         [MyAuthorize(Roles = "autorzy_select")]
         public JsonResult Get()
         {
@@ -69,12 +72,9 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    var autorzy = baza.Autorzy.ToList();
-                    for (int index = 0; index < autorzy.Count; index++)
-                    {
-                        autorzy[index].Ksiazki.Clear();
-                    }
-                    odpowiedz.Data = (autorzy.OrderBy(a => a.ID_Autora)).ToString();
+                    var autorzy = baza.Autorzy;
+                    odpowiedz.Data = KonwertujAutorzy(autorzy);
+
                 }
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpPut]
+        [HttpPost]
         [MyAuthorize(Roles = "autorzy_update")]
         public JsonResult Put(Autor value)
         {
@@ -128,12 +128,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpDelete]
+        [HttpPost]
         [MyAuthorize(Roles = "autorzy_delete")]
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -147,6 +147,15 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
+        }
+        private IEnumerable<Autor> KonwertujAutorzy(DbSet<Autor> autorzy)
+        {
+            var nowe = new List<Autor>();
+            foreach (var autor in autorzy)
+            {
+                nowe.Add(new Autor { ID_Autora = autor.ID_Autora, Imie = autor.Imie, Nazwisko = autor.Nazwisko });
+            }
+            return nowe;
         }
     }
 }

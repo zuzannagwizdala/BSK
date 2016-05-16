@@ -26,20 +26,20 @@ namespace BSK
 
                 if (authValue != null && !String.IsNullOrWhiteSpace(authValue.Parameter))
                 {
-                    using (DB context = new DB())
+                    using (DB baza = new DB())
                     {
-                        if (context.Sesje.Any(s => s.ID_Sesji == authValue.Parameter))
+                        if (baza.Sesje.Any(s => s.ID_Sesji == authValue.Parameter))
                         {
-                            var sesja = context.Sesje.FirstOrDefault(s => s.ID_Sesji == authValue.Parameter);
+                            var sesja = baza.Sesje.FirstOrDefault(s => s.ID_Sesji == authValue.Parameter);
                             if (LogInController.konwertujNaStempel(DateTime.Now) < sesja.Data_waznosci)
                             {
-                                var firstOrDefault = context.Rolee.FirstOrDefault(r => r.ID_Roli == sesja.ID_Roli);
+                                var firstOrDefault = baza.Rolee.FirstOrDefault(r => r.ID_Roli == sesja.ID_Roli);
                                 if (firstOrDefault != null)
                                 {
                                     var rolesPermissions = firstOrDefault.Uprawnienie_Rola;
                                     if (rolesPermissions != null)
                                     {
-                                        int idUprawnienia = context.Uprawnienia.FirstOrDefault(p => (p.Nazwa_tabeli + "_" + p.Instrukcja) == Roles).ID_Uprawnienia;
+                                        int idUprawnienia = baza.Uprawnienia.FirstOrDefault(p => (p.Nazwa_tabeli + "_" + p.Instrukcja) == Roles).ID_Uprawnienia;
                                         if (rolesPermissions.All(rp => rp.ID_Uprawnienia != idUprawnienia))
                                         {
                                             actionContext.Response =

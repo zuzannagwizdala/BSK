@@ -3,5 +3,76 @@
     ViewBag.Title = "Update";
 }
 
-<h2>Update</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Usuwanie autora</h2>
+    <button type="button" onclick="func()">Wyświetl listę autorów</button>
+    <div id="lista_autorow"></div>
+    <br />
+    <p>Podaj ID autora którego chcesz zmodyfikować:</p>
+    <input type="text" id="identyfikator" />
+    <button type="button" onclick="wybierz()">Wybierz</button>
+    <div id="aktualizacja" style="display:none">
+        Imie: <input type="text" id="imie" />
+        Nazwisko: <input type="text" id="nazwisko" />
+        <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
+    </div>
+    <script type="text/javascript">
+
+        function func() {
+            var autorzy = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Autorzy")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        autorzy[i] = data[i];
+                    }
+                    var lista = "<li>ID - Imie - Nazwisko</li>";
+                    for (i = 0; i < autorzy.length ; i++) {
+                        lista += "<li>";
+                        lista += autorzy[i].ID_Autora.toString() + " - " + autorzy[i].Imie + " - " + autorzy[i].Nazwisko + "</li>";
+                    }
+                    document.getElementById("lista_autorow").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function wybierz() {
+            document.getElementById("aktualizacja").style.display = "block";
+        }
+        function zaktualizuj() {
+            var imie = document.getElementById("imie").value;
+            var nazwisko = document.getElementById("nazwisko").value;
+            var identyfikator = document.getElementById("identyfikator").value;
+            debugger;
+            var postData = { identyfikator, imie, nazwisko };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Put", "Autorzy")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("update", "Autorzy")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
 
