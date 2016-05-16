@@ -32,12 +32,14 @@
         <div class="form-group" style="display:none" id="wybor_roli">
             <label class="control-label col-sm-2" for="wybor_roli">Wybierz rolę:</label>
         </div>
+        <div id="pusty"></div>
+        <div id="komunikat" style="display:none"></div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="button" onclick="przetworzForm()">Zaloguj</button>
             </div>
         </div>
-        <div id="test">aaa</div>
+        
     </form>
     <script type="text/javascript">
         function przetworzForm() {
@@ -45,6 +47,7 @@
             var haslo = document.getElementById("pwd").value;
             var rola = null;
             var postData = { login, haslo, rola };
+            var tablica_rol = new Array();
 
             $.ajax({
                 type: "POST",
@@ -53,11 +56,49 @@
                 success: function (data) {
                     console.log(data);
                     debugger;
+                    if (data == "Niepoprawne dane!") {
+                        document.getElementById("komunikat").style.display = "block";
+                        document.getElementById("komunikat").innerHTML = data;
+                        return;
+                    }
+                    if (data == "Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.") {
+                        document.getElementById("komunikat").style.display = "block";
+                        document.getElementById("komunikat").innerHTML = data;
+                        return;
+                    }
+                    for (i = 0; i < data.length; i++)
+                    {
+                        tablica_rol[i] = data[i];
+                    }
+                    debugger;
+                    document.getElementById("pusty").style.clear = "both";
+                    document.getElementById("komunikat").style.display = "block";
+                    document.getElementById("wybor_roli").style.display = "block";
+                    document.getElementById("komunikat").style.float = "left";
+                    var stala = "<div class='radio'><label><input type='radio' name='optradio' id='";
+                    var radio = "";
+                    for (j = 0; j < tablica_rol.length; j++) {
+                        radio += stala;
+                        radio += tablica_rol[j].ID_Roli;
+                        radio += "'>";
+                        radio += tablica_rol[j].Nazwa;
+                        radio += "</label></div>";
+                    }
+
+                    document.getElementById("komunikat").innerHTML = radio;
+                    document.getElementById("login").style.display = "none";
+                    document.getElementById("haslo").style.display = "none";
+
+                    for (i = 0; i < tablica_rol.length; i++) {
+                        if (document.getElementById(tablica_rol[i].ID_Roli).checked) {
+                            rola = tablica_rol[i].ID_Roli;
+                            debugger;
+                            break;
+                        }
+                    }
+                    przetworzForm();
                 },
             });
-
-            document.getElementById("haslo").style.display = "none";
-            document.getElementById("wybor_roli").style.display = "block";
         }
 
     </script>
