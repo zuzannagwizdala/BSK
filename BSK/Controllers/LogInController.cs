@@ -30,7 +30,7 @@ namespace BSK.Controllers
                 List<Rola> roleWszystko = baza.Rolee.ToList();
 
                 List<Uprawnienie> uprawnieniaWszystko = baza.Uprawnienia.ToList();
-                if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == dane.Haslo)) // Uzytkownik.sha256(dane.Haslo)))
+                if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == Uzytkownik.sha256(dane.Haslo))) 
                 {
                     Uzytkownik uzytkownik = uzytkownicyWszystko.First(u => u.Login == dane.Login);
                     var uzytkownik_role = roleWszystko.Where(r => uzytkownik.Uzytkownik_Rola.Select(ur => ur.ID_Roli).Contains(r.ID_Roli));
