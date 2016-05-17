@@ -3,5 +3,67 @@
     ViewBag.Title = "del";
 }
 
-<h2>del</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Usuwanie książki</h2>
+    <button type="button" onclick="func()">Wyświetl listę książek</button>
+    <div id="lista_ksiazek"></div>
+    <br />
+    <p>Podaj ID książki którą chcesz usunąć:</p>
+    <input type="text" id="identyfikator" />
+    <button type="button" onclick="usun()">Usuń</button>
+
+    <script type="text/javascript">
+
+        function func() {
+            var ksiazki = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Ksiazki")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        ksiazki[i] = data[i];
+                    }
+                    var lista = "<li>ID - Tytul</li>";
+                    for (i = 0; i < ksiazki.length ; i++) {
+                        lista += "<li>";
+                        lista += ksiazki[i].ID_Ksiazki.toString() + " - " + ksiazki[i].Tytul + "</li>";
+                    }
+                    document.getElementById("lista_ksiazek").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+
+        function usun() {
+            var id = document.getElementById("identyfikator").value;
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "Ksiazki")',
+                data: { id },
+                success: function (data) {
+                    location.href = '@Url.Action("del", "Ksiazki")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
 

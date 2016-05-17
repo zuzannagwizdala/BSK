@@ -50,8 +50,10 @@ namespace BSK.Controllers
                     var ksiazka = baza.Ksiazki.FirstOrDefault(k => k.ID_Ksiazki == id);
                     ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
                     ksiazka.Kategoria = new Kategoria { Nazwa = ksiazka.Kategoria.Nazwa };
+                    List<Ksiazka> ksiazki = new List<Ksiazka>();
+                    ksiazki.Add(ksiazka);
 
-                    odpowiedz.Data = new StringContent(ksiazka.ToString());
+                    odpowiedz.Data = ksiazki;
 
                 }
             }
@@ -78,7 +80,7 @@ namespace BSK.Controllers
                         ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
                         ksiazka.Kategoria = new Kategoria { Nazwa = ksiazka.Kategoria.Nazwa };
                     }
-                    odpowiedz.Data = (ksiazki.OrderBy(a => a.ID_Ksiazki)).ToString();
+                    odpowiedz.Data = ksiazki;
                 }
             }
             catch (Exception ex)
@@ -93,6 +95,7 @@ namespace BSK.Controllers
         public JsonResult Put(Ksiazka value)
         {
             JsonResult odpowiedz = new JsonResult();
+            odpowiedz.Data = " ";
 
             try
             {
@@ -122,6 +125,7 @@ namespace BSK.Controllers
         public JsonResult Post(Ksiazka value)
         {
             JsonResult odpowiedz = new JsonResult();
+            odpowiedz.Data = " ";
 
             try
             {
@@ -146,6 +150,7 @@ namespace BSK.Controllers
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();
+            odpowiedz.Data = " ";
 
             try
             {
@@ -167,7 +172,7 @@ namespace BSK.Controllers
             var nowe = new List<Ksiazka>();
             foreach (var ksiazka in ksiazki)
             {
-                nowe.Add(new Ksiazka { ID_Ksiazki = ksiazka.ID_Ksiazki, ID_Autora = ksiazka.ID_Autora, ID_Kategorii = ksiazka.ID_Kategorii });
+                nowe.Add(new Ksiazka { ID_Ksiazki = ksiazka.ID_Ksiazki, Tytul = ksiazka.Tytul, Liczba_dostepnych = ksiazka.Liczba_dostepnych, Cena_dostawa = ksiazka.Cena_dostawa, Cena_sprzedaz = ksiazka.Cena_sprzedaz, ISBN = ksiazka.ISBN, ID_Autora = ksiazka.ID_Autora, ID_Kategorii = ksiazka.ID_Kategorii });
             }
             return nowe;
         }

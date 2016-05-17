@@ -1,7 +1,82 @@
 ﻿
 @{
-    ViewBag.Title = "update";
+    ViewBag.Title = "Update";
 }
 
-<h2>update</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Aktualizowanie ksiazki</h2>
+    <button type="button" onclick="func()">Wyświetl listę książek</button>
+    <div id="lista_ksiazek"></div>
+    <br />
+    <p>Podaj ID ksiazki która chcesz zmodyfikować:</p>
+    <input type="text" id="identyfikator" />
+    <button type="button" onclick="wybierz()">Wybierz</button>
+    <div id="aktualizacja" style="display:none">
+        Tytul: <input type="text" id="tytul" />
+        ISBN: <input type="text" id="ISBN" />
+        ID_Autora: <input type="text" id="ID_Autora" />
+        ID_Kategorii: <input type="text" id="ID_Kategorii" />
+        <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
+    </div>
+    <script type="text/javascript">
+
+        function func() {
+            var ksiazki = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Ksiazki")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        ksiazki[i] = data[i];
+                    }
+                    var lista = "<li>ID - Tytul</li>";
+                    for (i = 0; i < ksiazki.length ; i++) {
+                        lista += "<li>";
+                        lista += ksiazki[i].ID_Ksiazki.toString() + " - " + ksiazki[i].Tytul + "</li>";
+                    }
+                    document.getElementById("lista_ksiazek").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function wybierz() {
+            document.getElementById("aktualizacja").style.display = "block";
+        }
+        function zaktualizuj() {
+            var tytul = document.getElementById("tytul").value;
+            var ISBN = document.getElementById("ISBN").value;
+            var ID_Autora = document.getElementById("ID_Autora").value;
+            var ID_Kategorii = document.getElementById("ID_Kategorii").value;
+            var ID_Ksiazki = parseInt(document.getElementById("identyfikator").value);
+            debugger;
+            var postData = { ID_Ksiazki, tytul, ISBN, ID_Autora, ID_Kategorii };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Put", "Ksiazki")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("update", "Ksiazki")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
 
