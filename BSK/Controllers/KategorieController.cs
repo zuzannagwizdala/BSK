@@ -36,8 +36,7 @@ namespace BSK.Controllers
         {
             return View();
         }
-
-        [HttpGet]
+        /*[HttpPost]
         [MyAuthorize(Roles = "kategorie_select")]
         public JsonResult Get(int id)
         {
@@ -56,14 +55,13 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
-        }
-
-        [HttpGet]
+        }*/
+        [HttpPost]
         [MyAuthorize(Roles = "kategorie_select")]
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())

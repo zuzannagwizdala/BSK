@@ -41,6 +41,7 @@
                     for (i = 0; i < data.length; i++) {
                         kategorie[i] = data[i];
                     }
+                    debugger;
                     var lista = "<li>ID - Nazwa - Opis</li>";
                     for (i = 0; i < kategorie.length ; i++) {
                         lista += "<li>";
@@ -52,13 +53,14 @@
             });
         }
         function dodaj() {
+            debugger;
             var nazwa = document.getElementById("nazwa").value;
             var opis = document.getElementById("opis").value;
 
             var postData = { nazwa, opis };
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("Post", "Autorzy")',
+                url: '@Url.Action("Post", "Kategorie")',
                 data: postData,
                 success: function (data) {
                     location.href = '@Url.Action("insert", "Kategorie")';
