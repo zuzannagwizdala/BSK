@@ -37,7 +37,7 @@ namespace BSK.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [MyAuthorize(Roles = "ksiazki_select")]
         public JsonResult Get(int id)
         {
@@ -62,7 +62,7 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
-        }
+        }*/
 
         [HttpPost]
         [MyAuthorize(Roles = "ksiazki_select")]

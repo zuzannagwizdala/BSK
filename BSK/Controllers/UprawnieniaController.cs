@@ -37,7 +37,7 @@ namespace BSK.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public JsonResult Get(int id)
         {
             JsonResult odpowiedz = new JsonResult();
@@ -57,7 +57,7 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
-        }
+        }*/
 
         [HttpPost]
         public JsonResult Get()

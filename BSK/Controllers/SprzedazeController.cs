@@ -36,7 +36,7 @@ namespace BSK.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [MyAuthorize(Roles = "sprzedaze_select")]
         public JsonResult Get(int id)
         {
@@ -57,7 +57,7 @@ namespace BSK.Controllers
                 //= Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.InnerException);
             }
             return odpowiedz;
-        }
+        }*/
 
         [HttpPost]
         [MyAuthorize(Roles = "sprzedaze_select")]
