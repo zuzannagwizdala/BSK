@@ -3,5 +3,78 @@
     ViewBag.Title = "update";
 }
 
-<h2>update</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Usuwanie autora</h2>
+    <button type="button" onclick="func()">Wyświetl listę kategorii</button>
+    <div id="lista_kategorii"></div>
+    <br />
+    <p>Podaj ID kategorii którą chcesz zmodyfikować:</p>
+    <input type="text" id="identyfikator" />
+    <button type="button" onclick="wybierz()">Wybierz</button>
+    <div id="aktualizacja" style="display:none">
+        Nazwa: <input type="text" id="nazwa" />
+        Opis: <input type="text" id="opis" />
+        <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
+    </div>
+    <script type="text/javascript">
+
+       function func() {
+            var kategorie = new Array();
+
+           $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Kategorie")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        kategorie[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa - Opis</li>";
+                    for (i = 0; i < kategorie.length ; i++) {
+                        lista += "<li>";
+                        lista += kategorie[i].ID_Kategorii.toString() + " - " + kategorie[i].Nazwa + " - " + kategorie[i].Opis + "</li>";
+                    }
+                    document.getElementById("lista_kategorii").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function wybierz() {
+            document.getElementById("aktualizacja").style.display = "block";
+        }
+        function zaktualizuj() {
+            var nazwa = document.getElementById("nazwa").value;
+            var opis = document.getElementById("opis").value;
+            var ID_Kategorii = parseInt(document.getElementById("identyfikator").value);
+            debugger;
+            var postData = { ID_Kategorii, nazwa, opis };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Put", "Kategorie")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("update", "Kategorie")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
+
+
 

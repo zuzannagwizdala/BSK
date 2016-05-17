@@ -3,5 +3,66 @@
     ViewBag.Title = "del";
 }
 
-<h2>del</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Usuwanie roli</h2>
+    <button type="button" onclick="func()">Wyświetl listę ról</button>
+    <div id="lista_rol"></div>
+    <br />
+    <p>Podaj ID roli którą chcesz usunąć:</p>
+    <input type="text" id="identyfikator" />
+    <button type="button" onclick="usun()">Usuń</button>
 
+    <script type="text/javascript">
+
+        function func() {
+            var role = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        role[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa</li>";
+                    for (i = 0; i < role.length ; i++) {
+                        lista += "<li>";
+                        lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
+                    }
+                    document.getElementById("lista_rol").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+
+        function usun() {
+            var id = document.getElementById("identyfikator").value;
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "Role")',
+                data: { id },
+                success: function (data) {
+                    location.href = '@Url.Action("del", "Role")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>

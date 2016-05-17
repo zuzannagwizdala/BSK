@@ -79,12 +79,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpPut]
+        [HttpPost]
         [MyAuthorize(Roles = "kategorie_update")]
         public JsonResult Put(Kategoria value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -108,7 +108,7 @@ namespace BSK.Controllers
         public JsonResult Post(Kategoria value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -125,12 +125,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpDelete]
+        [HttpPost]
         [MyAuthorize(Roles = "kategorie_delete")]
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())

@@ -31,18 +31,18 @@
 
            $.ajax({
                 type: "POST",
-                url: '@Url.Action("Get", "Autorzy")',
+                url: '@Url.Action("Get", "Kategorie")',
                 data: "a",
                 success: function (data) {
                     for (i = 0; i < data.length; i++) {
-                        autorzy[i] = data[i];
+                        kategorie[i] = data[i];
                     }
-                    var lista = "<li>ID - Imie - Nazwisko</li>";
-                    for (i = 0; i < autorzy.length ; i++) {
+                    var lista = "<li>ID - Nazwa - Opis</li>";
+                    for (i = 0; i < kategorie.length ; i++) {
                         lista += "<li>";
-                        lista += autorzy[i].ID_Autora.toString() + " - " + autorzy[i].Imie + " - " + autorzy[i].Nazwisko + "</li>";
+                        lista += kategorie[i].ID_Kategorii.toString() + " - " + kategorie[i].Nazwa + " - " + kategorie[i].Opis + "</li>";
                     }
-                    document.getElementById("lista_autorow").innerHTML = lista;
+                    document.getElementById("lista_kategorii").innerHTML = lista;
                     return;
                 },
             });
