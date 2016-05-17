@@ -35,12 +35,12 @@ namespace BSK.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         [MyAuthorize(Roles = "dostawy_select")]
         public JsonResult Get(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -57,12 +57,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpGet]
+        [HttpPost]
         [MyAuthorize(Roles = "dostawy_select")]
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -78,12 +78,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpPut]
+        [HttpPost]
         [MyAuthorize(Roles = "dostawy_update")]
         public JsonResult Put(Dostawa value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -108,7 +108,7 @@ namespace BSK.Controllers
         public JsonResult Post(Dostawa value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -124,12 +124,12 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpDelete]
+        [HttpPost]
         [MyAuthorize(Roles = "dostawy_delete")]
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())

@@ -21,6 +21,7 @@ namespace BSK.Controllers
         public JsonResult Post(LogOutZapytanie dane)
         {
             JsonResult odpowiedz = new JsonResult();
+            odpowiedz.Data = " ";
             using (DB baza = new DB())
             {
                 if (baza.Sesje.Any(s => s.ID_Sesji == dane.ID_Sesji))

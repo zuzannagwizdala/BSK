@@ -37,11 +37,11 @@ namespace BSK.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public JsonResult Get(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -59,11 +59,11 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpGet]
+        [HttpPost]
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -84,11 +84,11 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpPut]
+        [HttpPost]
         public JsonResult Put(Uprawnienie value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -111,7 +111,7 @@ namespace BSK.Controllers
         public JsonResult Post(Uprawnienie value)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -128,11 +128,11 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        [HttpDelete]
+        [HttpPost]
         public JsonResult Delete(int id)
         {
             JsonResult odpowiedz = new JsonResult();
-
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
