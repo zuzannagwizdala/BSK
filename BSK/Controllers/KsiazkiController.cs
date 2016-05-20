@@ -69,18 +69,18 @@ namespace BSK.Controllers
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
-            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
                 {
-                    var ksiazki = baza.Ksiazki.ToList();
-                    foreach (var ksiazka in ksiazki)
+                    var ksiazki = baza.Ksiazki;
+                    odpowiedz.Data = KonwertujKsiazki(ksiazki);
+                    /*foreach (var ksiazka in ksiazki)
                     {
                         ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
                         ksiazka.Kategoria = new Kategoria { Nazwa = ksiazka.Kategoria.Nazwa };
                     }
-                    odpowiedz.Data = ksiazki;
+                    odpowiedz.Data = ksiazki;*/
                 }
             }
             catch (Exception ex)

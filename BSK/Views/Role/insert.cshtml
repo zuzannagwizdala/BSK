@@ -25,8 +25,8 @@
 
     Podaj dane:
     <div id="aktualizacja" style="display:block">
-        Imie: <input type="text" id="imie" />
-        Nazwisko: <input type="text" id="nazwisko" />
+        Nazwa: <input type="text" id="nazwa" />
+        ID_Uprawnienia: <input type="text" id="ID_uprawnienia" />
         <button type="button" onclick="dodaj()">Dodaj</button>
     </div>
     <script type="text/javascript">
@@ -54,9 +54,23 @@
         }
         function dodaj() {
             var nazwa = document.getElementById("nazwa").value;
+            var ID_uprawnienia = document.getElementById("ID_uprawnienia").value;
+           
+            var postData = { tytul, ISBN, ID_Autora, ID_Kategorii };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Post", "Ksiazki")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("insert", "Ksiazki")';
+                    return;
+                },
+            });
+
+            var nazwa = document.getElementById("nazwa").value;
             var ID_uprawnien = document.getElementById("nazwisko").value;
 
-            var postData = { nazwa,  };
+            var postData = { nazwa };
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Post", "Role")',

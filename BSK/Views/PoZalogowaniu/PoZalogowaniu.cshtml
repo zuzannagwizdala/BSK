@@ -17,6 +17,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#" style="float:left">Ksiegarnia bezpieczna</a>
                 <div id="powitanie"></div>
+                <div><button type="button" onclick="wyloguj()">Wyloguj</button></div>
             </div>
         </div>
 
@@ -230,10 +231,33 @@
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
                 debugger;
             }
+        }
+            function wyloguj() {
+                var ID_Sesji = "";
+                a = '@ViewBag.Message';
+                var res = a.split("-");
+                var nazwa_uzytkownika = res[0];
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LogOutSession", "LogOut")',
+                    data: { nazwa_uzytkownika},
+                    success: function (data) {
+                        ID_Sesji = data;
 
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Post", "LogOut")',
+                            data: { ID_Sesji },
+                            success: function (data) {
+                                location.href = '@Url.Action("Index", "Home")';
+                            },
+                        });
+                    },
+                });
+            }
 
             
-        }
+        
     </script>
 </body>
 </html>

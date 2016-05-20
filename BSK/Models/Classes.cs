@@ -184,7 +184,7 @@ namespace BSK.Models
 
         public virtual List<Uzytkownik_Rola> Uzytkownik_Rola { get; set; }
 
-        public static string sha256(string password)   // źródło: http://stackoverflow.com/questions/12416249/hashing-a-string-with-sha256
+        public static string sha256(string password)   
         {
             SHA256Managed crypt = new SHA256Managed();
             StringBuilder hash = new StringBuilder();
