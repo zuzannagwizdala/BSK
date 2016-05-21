@@ -3,5 +3,57 @@
     ViewBag.Title = "select";
 }
 
-<h2>select</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body onload="func()">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Lista ról</h2>
+    <div id="lista_rol"></div>
+    <br />
+
+    <script type="text/javascript">
+
+        function func() {
+            var role = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        role[i] = data[i];
+                    }
+                    debugger;
+                    var lista = "<h3>ID - Nazwa</h3>";
+                    for (i = 0; i < role.length ; i++) {
+                        lista += "<li>";
+                        debugger;
+                        lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
+                        lista += "<ul><h5>Nazwa tabeli - Instrukcja</h5></ul>";
+                        for (j = 0; j < role[i].Uprawnienie_Rola.length; j++) {
+                            lista += "<ul>" + role[i].Uprawnienie_Rola[j].Uprawnienie.Nazwa_tabeli + " " + role[i].Uprawnienie_Rola[j].Uprawnienie.Instrukcja + "</ul>";
+                        }
+                    }
+                    document.getElementById("lista_rol").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
+
+
 

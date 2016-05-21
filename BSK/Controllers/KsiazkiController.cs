@@ -69,6 +69,7 @@ namespace BSK.Controllers
         public JsonResult Get()
         {
             JsonResult odpowiedz = new JsonResult();
+            odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
@@ -172,7 +173,17 @@ namespace BSK.Controllers
             var nowe = new List<Ksiazka>();
             foreach (var ksiazka in ksiazki)
             {
-                nowe.Add(new Ksiazka { ID_Ksiazki = ksiazka.ID_Ksiazki, Tytul = ksiazka.Tytul, Liczba_dostepnych = ksiazka.Liczba_dostepnych, Cena_dostawa = ksiazka.Cena_dostawa, Cena_sprzedaz = ksiazka.Cena_sprzedaz, ISBN = ksiazka.ISBN, ID_Autora = ksiazka.ID_Autora, ID_Kategorii = ksiazka.ID_Kategorii });
+                nowe.Add(new Ksiazka
+                {
+                    ID_Ksiazki = ksiazka.ID_Ksiazki,
+                    Tytul = ksiazka.Tytul,
+                    Liczba_dostepnych = ksiazka.Liczba_dostepnych,
+                    Cena_dostawa = ksiazka.Cena_dostawa,
+                    Cena_sprzedaz = ksiazka.Cena_sprzedaz,
+                    ISBN = ksiazka.ISBN,
+                    ID_Autora = ksiazka.ID_Autora,
+                    ID_Kategorii = ksiazka.ID_Kategorii
+                });
             }
             return nowe;
         }

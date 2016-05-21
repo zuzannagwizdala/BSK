@@ -92,7 +92,7 @@ namespace BSK.Controllers
                         role.Uzytkownik_Rola.Clear();
                     }
                     
-                    odpowiedz.Data = roles.OrderBy(a => a.ID_Roli).ToString();
+                    odpowiedz.Data = roles;
                 }
             }
             catch (Exception ex)
@@ -104,15 +104,20 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "role_update")]
-        public JsonResult Put(Rola value)
+        public JsonResult Put(string nazwa, string id)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
+            int id_roli = int.Parse(id);
             try
             {
                 using (DB baza = new DB())
                 {
-                    var role = baza.Rolee.FirstOrDefault(k => k.ID_Roli == value.ID_Roli);
+                    var nowa = baza.Rolee.FirstOrDefault(k => k.ID_Roli == id_roli);
+                    nowa.ID_Roli = id_roli;
+                    nowa.Nazwa = nazwa;
+                    baza.SaveChanges();
+                    /*var role = baza.Rolee.FirstOrDefault(k => k.ID_Roli == value.ID_Roli);
                     role.Nazwa = value.Nazwa;
 
                     var roleIds = value.Uprawnienie_Rola.Select(roPe => new { Id = roPe.Uprawnienie.ID_Uprawnienia });
@@ -138,7 +143,7 @@ namespace BSK.Controllers
                         }
                     }
                     baza.Uprawnienia_Role.AddRange(rpToAdd);
-                    baza.SaveChanges();
+                    baza.SaveChanges();*/
                 }
             }
             catch (Exception ex)
@@ -150,24 +155,31 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "role_insert")]
-        public JsonResult Post(Rola value)
+        public JsonResult Post(string uprawnienia)
         {
+            var nazwa_upr = uprawnienia.Split(';');
+            var nazwa = nazwa_upr[0];
+            var upr = nazwa_upr[1].Split('-');
+            upr = upr.Take(upr.Count() - 1).ToArray();
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
             try
             {
                 using (DB baza = new DB())
                 {
-                    var rolesPermissions = value.Uprawnienie_Rola.GetRange(0, value.Uprawnienie_Rola.Count);
-                    value.Uprawnienie_Rola.Clear();
-                    var role = baza.Rolee.Add(value);
-                    var rpToAdd = new List<Uprawnienie_Rola>();
-                    foreach (var rolesPermission in rolesPermissions)
+                    Rola value = new Rola();
+                    var rola = baza.Rolee.Add(value);
+                    value.Nazwa = nazwa;
+                    var urToAdd = new List<Uprawnienie_Rola>();
+                    var id_upr = 0;
+                    for (int i = 0; i < upr.Length; i++)
                     {
-                        var permission = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == rolesPermission.Uprawnienie.ID_Uprawnienia);
-                        rpToAdd.Add(new Uprawnienie_Rola { Rola = role, ID_Roli = role.ID_Roli, Uprawnienie = permission, ID_Uprawnienia = permission.ID_Uprawnienia });
+                        id_upr = int.Parse(upr[i]);
+                        var uprawnienie = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == id_upr);
+                        urToAdd.Add(new Uprawnienie_Rola { Rola = rola, ID_Roli = rola.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
+
                     }
-                    baza.Uprawnienia_Role.AddRange(rpToAdd);
+                    baza.Uprawnienia_Role.AddRange(urToAdd);
                     baza.SaveChanges();
                     
                 }
@@ -201,7 +213,7 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
-        private IEnumerable<Rola> KonwertujRole(DbSet<Rola> role)
+        private IEnumerable<Rola> KonwertujRole(List<Rola> role)
         {
             var nowe = new List<Rola>();
             foreach (var rola in role)

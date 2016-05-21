@@ -64,7 +64,6 @@
             var ID_Autora = document.getElementById("ID_Autora").value;
             var ID_Kategorii = document.getElementById("ID_Kategorii").value;
             var ID_Ksiazki = parseInt(document.getElementById("identyfikator").value);
-            debugger;
             var postData = { ID_Ksiazki, tytul, ISBN, ID_Autora, ID_Kategorii };
             $.ajax({
                 type: "POST",

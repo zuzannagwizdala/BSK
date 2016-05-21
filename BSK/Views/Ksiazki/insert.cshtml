@@ -35,9 +35,56 @@
         ISBN: <input type="text" id="ISBN" />
         ID_Autora: <input type="text" id="ID_Autora" />
         ID_Kategorii: <input type="text" id="ID_Kategorii" />
-        <button type="button" onclick="dodaj()">Dodaj</button>
+        <button type="button" onclick="dodaj()">Dodaj</button><br />
+        <button type="button" onclick="wyswietl_autorzy()">Wyświetl autorów</button><button type="button" onclick="wyswietl_kategorie()">Wyświetl kategorie</button>
+        <div id="lista"></div>
     </div>
     <script type="text/javascript">
+
+        function wyswietl_kategorie() {
+            var kategorie = new Array();
+       
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Kategorie")',
+                data: "a",
+                success: function (data) {
+                    debugger;
+                    for (i = 0; i < data.length; i++) {
+                        kategorie[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa - Opis</li>";
+                    for (i = 0; i < kategorie.length ; i++) {
+                        lista += "<li>";
+                        lista += kategorie[i].ID_Kategorii.toString() + " - " + kategorie[i].Nazwa + " - " + kategorie[i].Opis + "</li>";
+                    }
+                    document.getElementById("lista").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function wyswietl_autorzy() {
+            var autorzy = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Autorzy")',
+                data: "a",
+                success: function (data) {
+                    debugger;
+                    for (i = 0; i < data.length; i++) {
+                        autorzy[i] = data[i];
+                    }
+                    var lista = "<li>ID - Imie - Nazwisko</li>";
+                    for (i = 0; i < autorzy.length ; i++) {
+                        lista += "<li>";
+                        lista += autorzy[i].ID_Autora.toString() + " - " + autorzy[i].Imie + " - " + autorzy[i].Nazwisko + "</li>";
+                    }
+                    document.getElementById("lista").innerHTML = lista;
+                    return;
+                },
+            });
+        }
 
         function func() {
             var ksiazki = new Array();
@@ -47,6 +94,7 @@
                 url: '@Url.Action("Get", "Ksiazki")',
                 data: "a",
                 success: function (data) {
+                    debugger;
                     for (i = 0; i < data.length; i++) {
                         ksiazki[i] = data[i];
                     }
