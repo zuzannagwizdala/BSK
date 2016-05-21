@@ -87,7 +87,7 @@ namespace BSK.Controllers
                             item.Rola = new Rola { ID_Roli = rola.ID_Roli, Nazwa = rola.Nazwa };
                         }
                     }
-                    odpowiedz.Data = uzytkownicy.OrderBy(a => a.ID_Uzytkownika).ToString();
+                    odpowiedz.Data = uzytkownicy.OrderBy(a => a.ID_Uzytkownika);
                 }
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "uzytkownicy_insert")]
-        public JsonResult Post(Uzytkownik value)
+        public JsonResult Post(Uzytkownik value, int[] wartosci_int)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -158,15 +158,15 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    var userRoles = value.Uzytkownik_Rola.GetRange(0, value.Uzytkownik_Rola.Count);
-                    value.Uzytkownik_Rola.Clear();
                     value.Haslo = Models.Uzytkownik.sha256(value.Haslo);
                     var user = baza.Uzytkownicy.Add(value);
 
+                    int indeks = 0;
                     var urToAdd = new List<Uzytkownik_Rola>();
-                    foreach (var userRole in userRoles)
+                    for(int i = 0; i < wartosci_int.Length; i++)
                     {
-                        var role = baza.Rolee.FirstOrDefault(p => p.ID_Roli == userRole.Rola.ID_Roli);
+                        indeks = wartosci_int[i];
+                        var role = baza.Rolee.FirstOrDefault(p => p.ID_Roli == indeks);
                         urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = role, ID_Roli = role.ID_Roli });
                     }
                     baza.Uzytkownicy_Role.AddRange(urToAdd);

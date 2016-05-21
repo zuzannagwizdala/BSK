@@ -5,3 +5,55 @@
 
 <h2>select</h2>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body onload="func()">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Wyświetlanie użytkowników</h2>
+
+    <div id="lista_uzytkownikow"></div>
+    <br />
+
+
+    <script type="text/javascript">
+
+        function func() {
+            var uzytkownicy = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Uzytkownicy")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        uzytkownicy[i] = data[i];
+                    }
+                    var lista = "<li>ID - Login - Nazwa</li>";
+                    for (i = 0; i < uzytkownicy.length ; i++) {
+                        lista += "<li>";
+                        lista += uzytkownicy[i].ID_Uzytkownika.toString() + " - " + uzytkownicy[i].Login + " - " + uzytkownicy[i].Nazwa + "</li>";
+                        for (j = 0; j < uzytkownicy[i].Uzytkownik_Rola.length; j++) {
+                            lista += "<ul>" + uzytkownicy[i].Uzytkownik_Rola[j].Rola.Nazwa + "</ul>";
+                        }
+                    }
+                    document.getElementById("lista_uzytkownikow").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+
+
+    </script>
+</body>
+</html>

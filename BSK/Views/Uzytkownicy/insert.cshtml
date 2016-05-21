@@ -3,5 +3,109 @@
     ViewBag.Title = "insert";
 }
 
-<h2>insert</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ksiegarnia bezpieczna</title>
+</head>
+<body onload="wyswietlRole()">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+            </div>
+        </div>
+    </nav>
+    <h2>Dodawanie użytkownika</h2>
+    <button type="button" onclick="func()">Wyświetl listę użytkowników</button>
+    <div id="lista_uzytkownikow"></div>
+    <br />
+
+    Podaj dane:
+    <div id="aktualizacja" style="display:block">
+        Login: <input type="text" id="login" />
+        Nazwa: <input type="text" id="nazwa" />
+        Haslo: <input type="text" id="haslo" for="pwd"/>
+        <div id="role"></div>
+        <button type="button" onclick="dodaj()">Dodaj</button>
+    </div>
+    <script type="text/javascript">
+
+        function wyswietlRole() {
+            var role = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        role[i] = data[i];
+                    }
+                    debugger;
+                    var lista = '<h3>Role</h3> <form id="myName">';
+                    for (i = 0; i < role.length ; i++) {
+                        lista += '<input type="checkbox" id="';
+                        lista += role[i].ID_Roli.toString() + '" value="">' + role[i].Nazwa + '<br />';
+                    }
+                    lista += "</form>";
+                    document.getElementById("role").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+
+
+        function func() {
+            var uzytkownicy = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Uzytkownicy")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        uzytkownicy[i] = data[i];
+                    }
+                    var lista = "<li>ID - Login - Nazwa</li>";
+                    for (i = 0; i < uzytkownicy.length ; i++) {
+                        lista += "<li>";
+                        lista += uzytkownicy[i].ID_Uzytkownika.toString() + " - " + uzytkownicy[i].Login + " - " + uzytkownicy[i].Nazwa + "</li>";
+                    }
+                    document.getElementById("lista_uzytkownikow").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function dodaj() {
+            var Login = document.getElementById("login").value;
+            var Nazwa = document.getElementById("nazwa").value;
+            var Haslo = document.getElementById("haslo").value;
+
+            var wartosci = new Array();
+
+            wartosci = $("#myName").find("input[type='checkbox']:checked").get();
+            var wartosci_int = new Array();
+
+            for (i = 0; i < wartosci.length; i++) {
+                wartosci_int[i] = parseInt(wartosci[i].id);
+                debugger;
+            }
+
+            var postData = { Login, Nazwa, Haslo, wartosci_int };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Post", "Uzytkownicy")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("insert", "Uzytkownicy")';
+                    return;
+                },
+            });
+        }
+    </script>
+</body>
+</html>
 

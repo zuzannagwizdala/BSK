@@ -31,8 +31,57 @@
         ID_Autora: <input type="text" id="ID_Autora" />
         ID_Kategorii: <input type="text" id="ID_Kategorii" />
         <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
+
+        <button type="button" onclick="wyswietl_autorzy()">Wyświetl autorów</button><button type="button" onclick="wyswietl_kategorie()">Wyświetl kategorie</button>
+        <div id="lista"></div>
+
     </div>
     <script type="text/javascript">
+
+        function wyswietl_kategorie() {
+            var kategorie = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Kategorie")',
+                data: "a",
+                success: function (data) {
+                    debugger;
+                    for (i = 0; i < data.length; i++) {
+                        kategorie[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa - Opis</li>";
+                    for (i = 0; i < kategorie.length ; i++) {
+                        lista += "<li>";
+                        lista += kategorie[i].ID_Kategorii.toString() + " - " + kategorie[i].Nazwa + " - " + kategorie[i].Opis + "</li>";
+                    }
+                    document.getElementById("lista").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function wyswietl_autorzy() {
+            var autorzy = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Autorzy")',
+                data: "a",
+                success: function (data) {
+                    debugger;
+                    for (i = 0; i < data.length; i++) {
+                        autorzy[i] = data[i];
+                    }
+                    var lista = "<li>ID - Imie - Nazwisko</li>";
+                    for (i = 0; i < autorzy.length ; i++) {
+                        lista += "<li>";
+                        lista += autorzy[i].ID_Autora.toString() + " - " + autorzy[i].Imie + " - " + autorzy[i].Nazwisko + "</li>";
+                    }
+                    document.getElementById("lista").innerHTML = lista;
+                    return;
+                },
+            });
+        }
 
         function func() {
             var ksiazki = new Array();
@@ -59,12 +108,12 @@
             document.getElementById("aktualizacja").style.display = "block";
         }
         function zaktualizuj() {
-            var tytul = document.getElementById("tytul").value;
+            var Tytul = document.getElementById("tytul").value;
             var ISBN = document.getElementById("ISBN").value;
             var ID_Autora = document.getElementById("ID_Autora").value;
             var ID_Kategorii = document.getElementById("ID_Kategorii").value;
             var ID_Ksiazki = parseInt(document.getElementById("identyfikator").value);
-            var postData = { ID_Ksiazki, tytul, ISBN, ID_Autora, ID_Kategorii };
+            var postData = { ID_Ksiazki, Tytul, ISBN, ID_Autora, ID_Kategorii };
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Put", "Ksiazki")',

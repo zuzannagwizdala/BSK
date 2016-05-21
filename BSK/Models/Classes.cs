@@ -303,7 +303,7 @@ namespace BSK.Models
     [DbConfigurationType(typeof(NpgsqlConfiguration))]
     public class DB : DbContext
     {
-        static String ConnectionString = "Server=127.0.0.1;User ID=postgres;Password=paulina;Database=Ksiegarnia;syncnotification=false;port=5432";
+        static String ConnectionString = "Server=192.168.0.106;User ID=postgres;Password=paulina;Database=Ksiegarnia;syncnotification=false;port=5432";
         public DB()
             : base(new NpgsqlConnection(ConnectionString), true) {}
         public DbSet<Autor> Autorzy { get; set; }
