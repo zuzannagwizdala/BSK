@@ -35,7 +35,7 @@
         ISBN: <input type="text" id="ISBN" />
         ID_Autora: <input type="text" id="ID_Autora" />
         ID_Kategorii: <input type="text" id="ID_Kategorii" />
-        <button type="button" onclick="dodaj()">Dodaj</button><br />
+        <button type="button" onclick="dodaj()">Dodaj</button><br /><br />
         <button type="button" onclick="wyswietl_autorzy()">Wyświetl autorów</button><button type="button" onclick="wyswietl_kategorie()">Wyświetl kategorie</button>
         <div id="lista"></div>
     </div>
@@ -98,10 +98,10 @@
                     for (i = 0; i < data.length; i++) {
                         ksiazki[i] = data[i];
                     }
-                    var lista = "<li>ID - Tytul</li>";
+                    var lista = "<li>ID - Tytul - ISBN</li>";
                     for (i = 0; i < ksiazki.length ; i++) {
                         lista += "<li>";
-                        lista += ksiazki[i].ID_Ksiazki.toString() + " - " + ksiazki[i].Tytul + "</li>";
+                        lista += ksiazki[i].ID_Ksiazki.toString() + " - " + ksiazki[i].Tytul + " - " + ksiazki[i].ISBN+"</li>";
                     }
                     document.getElementById("lista_ksiazek").innerHTML = lista;
                     return;
@@ -110,12 +110,12 @@
         }
         function dodaj() {
 
-            var tytul = document.getElementById("tytul").value;
+            var Tytul = document.getElementById("tytul").value;
             var ISBN = document.getElementById("ISBN").value;
             var ID_Autora = document.getElementById("ID_Autora").value;
             var ID_Kategorii = document.getElementById("ID_Kategorii").value;
 
-            var postData = { tytul, ISBN, ID_Autora, ID_Kategorii };
+            var postData = { Tytul, ISBN, ID_Autora, ID_Kategorii };
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Post", "Ksiazki")',

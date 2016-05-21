@@ -132,11 +132,8 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    value.ID_Autora = 1;
-                    value.ID_Kategorii = 1;
                     baza.Ksiazki.Add(value);
                     baza.SaveChanges();
-                    
                 }
             }
             catch (Exception ex)

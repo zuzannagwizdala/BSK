@@ -314,10 +314,6 @@
     <Content Include="Views\Autorzy\update.cshtml" />
     <Content Include="Views\Autorzy\del.cshtml" />
     <Content Include="Views\Autorzy\select.cshtml" />
-    <Content Include="Views\Dostawy\del.cshtml" />
-    <Content Include="Views\Dostawy\insert.cshtml" />
-    <Content Include="Views\Dostawy\select.cshtml" />
-    <Content Include="Views\Dostawy\update.cshtml" />
     <Content Include="Views\Kategorie\del.cshtml" />
     <Content Include="Views\Kategorie\insert.cshtml" />
     <Content Include="Views\Kategorie\select.cshtml" />

@@ -44,7 +44,7 @@ namespace BSK.Models
 
         public virtual List<Ksiazka> Ksiazki { get; set; }
     }
-
+    /*
     [Table("Sprzedaze", Schema = "public")]
     public class Sprzedaz
     {
@@ -54,7 +54,7 @@ namespace BSK.Models
 
         [Column("Data_sprzedazy")]
         public DateTime Data_sprzedazy { get; set; }
-    }
+    }*/
 
     [Table("Ksiazki", Schema = "public")]
     public class Ksiazka
@@ -88,6 +88,7 @@ namespace BSK.Models
         public int ID_Kategorii { get; set; }
         public virtual Kategoria Kategoria { get; set; }
     }
+    /*
 
     [Table("Dostawy", Schema = "public")]
     public class Dostawa
@@ -102,8 +103,8 @@ namespace BSK.Models
         [Column("Dostawca")]
         public string Dostawca { get; set; }
         public virtual List<Ksiazka> Ksiazki { get; set; }
-    }
-
+    }*/
+    /*
     [Table("Sprzedaze_Ksiazki", Schema = "public")]
     public class Sprzedaz_Ksiazka
     {
@@ -134,7 +135,7 @@ namespace BSK.Models
 
         public Dostawa Dostawa { get; set; }
         public Ksiazka Ksiazka { get; set; }
-    }
+    }*/
 
     [Table("Uprawnienia", Schema = "public")]
     public class Uprawnienie
@@ -306,13 +307,13 @@ namespace BSK.Models
         public DB()
             : base(new NpgsqlConnection(ConnectionString), true) {}
         public DbSet<Autor> Autorzy { get; set; }
-        public DbSet<Dostawa> Dostawy { get; set; }
+     //   public DbSet<Dostawa> Dostawy { get; set; }
         public DbSet<Kategoria> Kategorie { get; set; }
         public DbSet<Ksiazka> Ksiazki { get; set; }
         public DbSet<Uprawnienie> Uprawnienia { get; set; }
         public DbSet<Rola> Rolee { get; set; }
         public DbSet<Sesja> Sesje { get; set; }
-        public DbSet<Sprzedaz> Sprzedaze { get; set; }
+    //    public DbSet<Sprzedaz> Sprzedaze { get; set; }
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
         public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
         public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
