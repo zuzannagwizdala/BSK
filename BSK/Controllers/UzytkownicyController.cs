@@ -99,7 +99,7 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "uzytkownicy_update")]
-        public JsonResult Put(Uzytkownik value)
+        public JsonResult Put(int id, string login, string nazwa, string stareHaslo, string noweHaslo )    //(Uzytkownik value)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -107,10 +107,36 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    var user = baza.Uzytkownicy.FirstOrDefault(k => k.ID_Uzytkownika == value.ID_Uzytkownika);
-                    user.Login = value.Login;
-                    user.Nazwa = value.Nazwa;
-                    if (value.Haslo != null)
+                    var user = baza.Uzytkownicy.FirstOrDefault(k => k.ID_Uzytkownika == id);
+                    if (login != "")
+                    {
+                        user.Login = login;
+                    }
+                    if (nazwa != "")
+                    {
+                        user.Nazwa = nazwa;
+                    }
+
+                    if (noweHaslo != "" || stareHaslo != "")
+                    {
+                        if (noweHaslo != "" && stareHaslo != "")
+                        {
+                            if (user.Haslo == Models.Uzytkownik.sha256(stareHaslo))
+                            {
+                                user.Haslo = Models.Uzytkownik.sha256(noweHaslo);
+                            }
+                            else
+                            {
+                                odpowiedz.Data = "Podano niepoprawne hasło, zmiana nie powiodła się!";
+                            }
+                        }
+                        else
+                        {
+                            odpowiedz.Data = "Oba hasła muszą być podane aby dokonać zmiany!";
+                        }
+                    }
+
+                    /*if (value.Haslo != null)
                     {
                         user.Haslo = Models.Uzytkownik.sha256(value.Haslo);
                     }
@@ -136,7 +162,8 @@ namespace BSK.Controllers
                             urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = role, ID_Roli = role.ID_Roli });
                         }
                     }
-                    baza.Uzytkownicy_Role.AddRange(urToAdd);
+
+                    baza.Uzytkownicy_Role.AddRange(urToAdd);*/
                     baza.SaveChanges();
                     
                 }
@@ -156,21 +183,31 @@ namespace BSK.Controllers
             odpowiedz.Data = " ";
             try
             {
+                if (value.Login == null || value.Nazwa == null || value.Haslo == null)
+                {
+                    odpowiedz.Data = "Uzupełnij wszystkie pola aby dodać użytkownika!";
+                    return odpowiedz;
+                }
                 using (DB baza = new DB())
                 {
                     value.Haslo = Models.Uzytkownik.sha256(value.Haslo);
                     var user = baza.Uzytkownicy.Add(value);
 
                     int indeks = 0;
+
                     var urToAdd = new List<Uzytkownik_Rola>();
-                    for(int i = 0; i < wartosci_int.Length; i++)
+                    if (wartosci_int != null)
                     {
-                        indeks = wartosci_int[i];
-                        var role = baza.Rolee.FirstOrDefault(p => p.ID_Roli == indeks);
-                        urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = role, ID_Roli = role.ID_Roli });
+                        
+                        for (int i = 0; i < wartosci_int.Length; i++)
+                        {
+                            indeks = wartosci_int[i];
+                            var role = baza.Rolee.FirstOrDefault(p => p.ID_Roli == indeks);
+                            urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = role, ID_Roli = role.ID_Roli });
+                        }
+                        
                     }
                     baza.Uzytkownicy_Role.AddRange(urToAdd);
-
                     baza.SaveChanges();
                 }
             }
@@ -191,9 +228,13 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    baza.Uzytkownicy.Remove(baza.Uzytkownicy.FirstOrDefault(k => k.ID_Uzytkownika == id));
                     var userRoles = baza.Uzytkownicy_Role.Where(r => r.ID_Uzytkownika == id);
+                    var sesje = baza.Sesje.Where(s => s.ID_Uzytkownika == id);
                     baza.Uzytkownicy_Role.RemoveRange(userRoles);
+                    baza.Sesje.RemoveRange(sesje);
+
+                    baza.Uzytkownicy.Remove(baza.Uzytkownicy.FirstOrDefault(k => k.ID_Uzytkownika == id));
+                    
                     baza.SaveChanges();
                 }
             }

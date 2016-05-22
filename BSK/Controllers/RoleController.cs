@@ -91,8 +91,7 @@ namespace BSK.Controllers
                         role.Uprawnienie_Rola = rolesPermissions;
                         role.Uzytkownik_Rola.Clear();
                     }
-                    
-                    odpowiedz.Data = roles;
+                    odpowiedz.Data = roles.OrderBy(a => a.ID_Roli);
                 }
             }
             catch (Exception ex)
@@ -104,18 +103,21 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "role_update")]
-        public JsonResult Put(string nazwa, string id)
+        public JsonResult Put(string nazwa, int id)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
-            int id_roli = int.Parse(id);
+            //int id_roli = int.Parse(id);
             try
             {
                 using (DB baza = new DB())
                 {
-                    var nowa = baza.Rolee.FirstOrDefault(k => k.ID_Roli == id_roli);
-                    nowa.ID_Roli = id_roli;
-                    nowa.Nazwa = nazwa;
+                    var nowa = baza.Rolee.FirstOrDefault(k => k.ID_Roli == id);
+                    nowa.ID_Roli = id;
+                    if (nazwa != "")
+                    {
+                        nowa.Nazwa = nazwa;
+                    }
                     baza.SaveChanges();
                     /*var role = baza.Rolee.FirstOrDefault(k => k.ID_Roli == value.ID_Roli);
                     role.Nazwa = value.Nazwa;
@@ -165,6 +167,11 @@ namespace BSK.Controllers
             odpowiedz.Data = " ";
             try
             {
+                if(nazwa == "")
+                {
+                    odpowiedz.Data = "Podaj nazwę aby dodać rolę!";
+                    return odpowiedz;
+                }
                 using (DB baza = new DB())
                 {
                     Rola value = new Rola();
@@ -213,7 +220,7 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
-        private IEnumerable<Rola> KonwertujRole(List<Rola> role)
+        private List<Rola> KonwertujRole(IEnumerable<Rola> role)
         {
             var nowe = new List<Rola>();
             foreach (var rola in role)

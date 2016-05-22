@@ -73,7 +73,9 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var autorzy = baza.Autorzy;
-                    odpowiedz.Data = KonwertujAutorzy(autorzy);
+
+                    var posortowane = autorzy.OrderBy(a => a.ID_Autora);
+                    odpowiedz.Data = KonwertujAutorzy(posortowane);
 
                 }
             }
@@ -81,6 +83,8 @@ namespace BSK.Controllers
             {
                 odpowiedz.Data = ex.InnerException.ToString();
             }
+
+            
             return odpowiedz;
         }
 
@@ -95,8 +99,14 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var autor = baza.Autorzy.FirstOrDefault(k => k.ID_Autora == value.ID_Autora);
-                    autor.Imie = value.Imie;
-                    autor.Nazwisko = value.Nazwisko;
+                    if (value.Imie != null)
+                    {
+                        autor.Imie = value.Imie;
+                    }
+                    if (value.Nazwisko != null)
+                    {
+                        autor.Nazwisko = value.Nazwisko;
+                    }
                     baza.SaveChanges();
                 }
             }
@@ -115,6 +125,11 @@ namespace BSK.Controllers
             odpowiedz.Data = " ";
             try
             {
+                if (value.Imie == null || value.Nazwisko == null)
+                {
+                    odpowiedz.Data = "Uzupełnij wszystkie pola aby dodać autora!";
+                    return odpowiedz;
+                }
                 using (DB baza = new DB())
                 {
                     baza.Autorzy.Add(value);
@@ -148,7 +163,7 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
-        private IEnumerable<Autor> KonwertujAutorzy(DbSet<Autor> autorzy)
+        private List<Autor> KonwertujAutorzy(IEnumerable<Autor> autorzy)
         {
             var nowe = new List<Autor>();
             foreach (var autor in autorzy)

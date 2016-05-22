@@ -27,7 +27,9 @@
         Nazwa: <input type="text" id="nazwa" />
         Opis: <input type="text" id="opis" />
         <button type="button" onclick="dodaj()">Dodaj</button>
+        
     </div>
+    <div id="komunikat" style="float:left"></div>
     <script type="text/javascript">
 
         function func() {
@@ -63,7 +65,13 @@
                 url: '@Url.Action("Post", "Kategorie")',
                 data: postData,
                 success: function (data) {
-                    location.href = '@Url.Action("insert", "Kategorie")';
+                    if (data == "Uzupełnij wszystkie pola aby dodać kategorię!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else {
+                        location.href = '@Url.Action("insert", "Kategorie")';
+                    }
+
                     return;
                 },
             });

@@ -100,9 +100,14 @@
                 url: '@Url.Action("Post", "Role")',
                 data: { uprawnienia },
                 success: function (data) {
-                    document.getElementById("komunikat").innerHTML = "Dodano rolę o nazwie: " + nazwa;
-                    document.getElementById("kolejna_rola").innerHTML = '<button type="button">@Html.ActionLink("Dodaj kolejną rolę", "insert", "Role")</button>';
-                    document.getElementById("przycisk_dodaj").style.display = "none";
+                    if (data == "Podaj nazwę aby dodać rolę!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else {
+                        document.getElementById("komunikat").innerHTML = "Dodano rolę o nazwie: " + nazwa;
+                        document.getElementById("kolejna_rola").innerHTML = '<button type="button">@Html.ActionLink("Dodaj kolejną rolę", "insert", "Role")</button>';
+                        document.getElementById("przycisk_dodaj").style.display = "none";
+                    }
                     return;
                 },
             });

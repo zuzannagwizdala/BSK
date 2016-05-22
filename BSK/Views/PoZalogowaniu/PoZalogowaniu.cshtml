@@ -43,7 +43,7 @@
                     <div id="update.kategorie" style="color:black">Zaktualizuj</div>
                     <div id="select.kategorie" style="color:black">Przejrzyj</div>
                 </div>
-                <div style="float:left; padding:10px;">
+                <!-- <div style="float:left; padding:10px;">
                     <h4 style="color:#808080">Dostawy</h4>
                     <div id="insert.dostawy" style="color:black">Dodaj</div>
                     <div id="delete.dostawy" style="color:black">Usuń</div>
@@ -56,7 +56,7 @@
                     <div id="delete.sprzedaze" style="color:black">Usuń</div>
                     <div id="update.sprzedaze" style="color:black">Zaktualizuj</div>
                     <div id="select.sprzedaze" style="color:black">Przejrzyj</div>
-                </div>
+                </div> -->
                 <div style="float:left; padding:10px;">
                     <h4 style="color:#808080">Użytkownicy</h4>
                     <div id="insert.uzytkownicy" style="color:black">Dodaj</div>
@@ -94,6 +94,7 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
+                var adres = @Url.Action("Index", "Home");
                 debugger;
                 var link = '<a style="color:white;" href="';
                 
@@ -101,130 +102,130 @@
                 if(instrukcja_tabela[1]=="autorzy")
                 {
                     if(instrukcja_tabela[0]=="insert"){
-                        link += '/Autorzy/insert/">';
+                        link += adres + '/Autorzy/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Autorzy/del/">';
+                        link += adres + '/Autorzy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Autorzy/update/">';
+                        link += adres + '/Autorzy/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Autorzy/select/">';
+                        link += adres + '/Autorzy/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "ksiazki")
                 {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Ksiazki/insert/">';
+                        link += adres + '/Ksiazki/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Ksiazki/del/">';
+                        link += adres + '/Ksiazki/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Ksiazki/update/">';
+                        link += adres + '/Ksiazki/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Ksiazki/select/">';
+                        link += adres + '/Ksiazki/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "kategorie")
                 {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Kategorie/insert/">';
+                        link += adres + '/Kategorie/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Kategorie/del/">';
+                        link += adres + '/Kategorie/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Kategorie/update/">';
+                        link += adres + '/Kategorie/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Kategorie/select/">';
+                        link += adres + '/Kategorie/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
-                else if (instrukcja_tabela[1] == "dostawy")
+                /* else if (instrukcja_tabela[1] == "dostawy")
                 {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Dostawy/insert/">';
+                        link += adres + '/Dostawy/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Dostawy/del/">';
+                        link += adres + '/Dostawy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Dostawy/update/">';
+                        link += adres + '/Dostawy/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Dostawy/select/">';
+                        link += adres + '/Dostawy/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "sprzedaze") {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Sprzedaze/insert/">';
+                        link += adres + '/Sprzedaze/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Sprzedaze/del/">';
+                        link += adres + '/Sprzedaze/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Sprzedaze/update/">';
+                        link += adres + '/Sprzedaze/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Sprzedaze/select/">';
+                        link += adres + '/Sprzedaze/select/">';
                         link += "Przeglądaj</a>";
                     }
-                }
+                } */
                 else if (instrukcja_tabela[1] == "uzytkownicy") {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Uzytkownicy/insert/">';
+                        link += adres + '/Uzytkownicy/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Uzytkownicy/del/">';
+                        link += adres + '/Uzytkownicy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Uzytkownicy/update/">';
+                        link += adres + '/Uzytkownicy/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Uzytkownicy/select/">';
+                        link += adres + '/Uzytkownicy/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "role") {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += '/Role/insert/">';
+                        link += adres + '/Role/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += '/Role/del/">';
+                        link += adres + '/Role/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += '/Role/update/">';
+                        link += adres + '/Role/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += '/Role/select/">';
+                        link += adres + '/Role/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }

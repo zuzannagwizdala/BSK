@@ -25,10 +25,12 @@
 
     Podaj dane:
     <div id="aktualizacja" style="display:block">
-        Imie: <input type="text" id="imie" />
+        Imię: <input type="text" id="imie" />
         Nazwisko: <input type="text" id="nazwisko" />
         <button type="button" onclick="dodaj()">Dodaj</button>
+        
     </div>
+    <div id="komunikat" style="float:left"></div>
     <script type="text/javascript">
 
         function func() {
@@ -62,7 +64,13 @@
                 url: '@Url.Action("Post", "Autorzy")',
                 data: postData,
                 success: function (data) {
-                    location.href = '@Url.Action("insert", "Autorzy")';
+                    if (data == "Uzupełnij wszystkie pola aby dodać autora!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else {
+                        location.href = '@Url.Action("insert", "Autorzy")';
+                    }
+
                     return;
                 },
             });

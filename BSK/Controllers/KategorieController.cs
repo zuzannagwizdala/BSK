@@ -67,7 +67,8 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var kategorie = baza.Kategorie;
-                    odpowiedz.Data = KonwertujKategorie(kategorie);
+                    var posortowane = kategorie.OrderBy(a => a.ID_Kategorii);
+                    odpowiedz.Data = KonwertujKategorie(posortowane);
                 }
             }
             catch (Exception ex)
@@ -88,8 +89,14 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var kategoria = baza.Kategorie.FirstOrDefault(k => k.ID_Kategorii == value.ID_Kategorii);
-                    kategoria.Nazwa = value.Nazwa;
-                    kategoria.Opis = value.Opis;
+                    if (value.Nazwa != null)
+                    {
+                        kategoria.Nazwa = value.Nazwa;
+                    }
+                    if (value.Opis != null)
+                    {
+                        kategoria.Opis = value.Opis;
+                    }
                     baza.SaveChanges();
                     
                 }
@@ -109,6 +116,12 @@ namespace BSK.Controllers
             odpowiedz.Data = " ";
             try
             {
+                if (value.Nazwa == null || value.Opis == null)
+                {
+                    odpowiedz.Data = "Uzupełnij wszystkie pola aby dodać kategorię!";
+                    return odpowiedz;
+                }
+
                 using (DB baza = new DB())
                 {
                     baza.Kategorie.Add(value);
@@ -144,7 +157,7 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
-        private IEnumerable<Kategoria> KonwertujKategorie(DbSet<Kategoria> kategorie)
+        private IEnumerable<Kategoria> KonwertujKategorie(IEnumerable<Kategoria> kategorie)
         {
             var nowe = new List<Kategoria>();
             foreach (var kat in kategorie)

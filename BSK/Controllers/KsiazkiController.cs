@@ -75,7 +75,8 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var ksiazki = baza.Ksiazki;
-                    odpowiedz.Data = KonwertujKsiazki(ksiazki);
+                    var posortowane = ksiazki.OrderBy(a => a.ID_Ksiazki);
+                    odpowiedz.Data = KonwertujKsiazki(posortowane);
                     /*foreach (var ksiazka in ksiazki)
                     {
                         ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
@@ -103,13 +104,35 @@ namespace BSK.Controllers
                 using (DB baza = new DB())
                 {
                     var ksiazka = baza.Ksiazki.FirstOrDefault(k => k.ID_Ksiazki == value.ID_Ksiazki);
-                    ksiazka.ID_Autora = value.ID_Autora;
-                    ksiazka.ID_Kategorii = value.ID_Kategorii;
-                    ksiazka.Liczba_dostepnych = value.Liczba_dostepnych;
-                    ksiazka.Cena_dostawa = value.Cena_dostawa;
-                    ksiazka.Cena_sprzedaz = value.Cena_sprzedaz;
-                    ksiazka.Tytul = value.Tytul;
-                    ksiazka.ISBN = value.ISBN;
+
+                    if (value.ID_Autora != 0)
+                    {
+                        ksiazka.ID_Autora = value.ID_Autora;
+                    }
+                    if (value.ID_Kategorii != 0)
+                    {
+                        ksiazka.ID_Kategorii = value.ID_Kategorii;
+                    }
+                    if (value.Liczba_dostepnych != 0)
+                    {
+                        ksiazka.Liczba_dostepnych = value.Liczba_dostepnych;
+                    }
+                    if (value.Cena_dostawa != 0)
+                    {
+                        ksiazka.Cena_dostawa = value.Cena_dostawa;
+                    }
+                    if (value.Cena_sprzedaz != 0)
+                    {
+                        ksiazka.Cena_sprzedaz = value.Cena_sprzedaz;
+                    }
+                    if (value.Tytul != null)
+                    {
+                        ksiazka.Tytul = value.Tytul;
+                    }
+                    if (value.ISBN != null)
+                    {
+                        ksiazka.ISBN = value.ISBN;
+                    }
                     baza.SaveChanges();
                     
                 }
@@ -128,6 +151,11 @@ namespace BSK.Controllers
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
 
+            if (value.ID_Autora == 0 || value.ID_Kategorii == 0 || value.Tytul == null || value.ISBN == null)
+            {
+                odpowiedz.Data = "Uzupełnij wszystkie pola aby dodać książkę!";
+                return odpowiedz;
+            }
             try
             {
                 using (DB baza = new DB())
@@ -165,7 +193,7 @@ namespace BSK.Controllers
             }
             return odpowiedz;
         }
-        private IEnumerable<Ksiazka> KonwertujKsiazki(DbSet<Ksiazka> ksiazki)
+        private IEnumerable<Ksiazka> KonwertujKsiazki(IEnumerable<Ksiazka> ksiazki)
         {
             var nowe = new List<Ksiazka>();
             foreach (var ksiazka in ksiazki)

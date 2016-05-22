@@ -31,19 +31,21 @@
     Podaj dane:
     <div id="aktualizacja" style="display:block">
 
-        Tytul: <input type="text" id="tytul" />
+        Tytuł: <input type="text" id="tytul" />
         ISBN: <input type="text" id="ISBN" />
         ID_Autora: <input type="text" id="ID_Autora" />
         ID_Kategorii: <input type="text" id="ID_Kategorii" />
         <button type="button" onclick="dodaj()">Dodaj</button><br /><br />
+        
         <button type="button" onclick="wyswietl_autorzy()">Wyświetl autorów</button><button type="button" onclick="wyswietl_kategorie()">Wyświetl kategorie</button>
         <div id="lista"></div>
     </div>
+    <div id="komunikat" style="float:left"></div>
     <script type="text/javascript">
 
         function wyswietl_kategorie() {
             var kategorie = new Array();
-       
+
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Get", "Kategorie")',
@@ -121,7 +123,13 @@
                 url: '@Url.Action("Post", "Ksiazki")',
                 data: postData,
                 success: function (data) {
-                    location.href = '@Url.Action("insert", "Ksiazki")';
+                    if (data == "Uzupełnij wszystkie pola aby dodać książkę!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else {
+                        location.href = '@Url.Action("insert", "Ksiazki")';
+                    }
+
                     return;
                 },
             });
