@@ -108,7 +108,7 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "role_update")]
-        public JsonResult Put(string nazwa, int id)
+        public JsonResult Put(string nazwa, int id, int[] uprawnieniaDodanie, int[] uprawnieniaUsuwanie)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -122,6 +122,44 @@ namespace BSK.Controllers
                     if (nazwa != "")
                     {
                         nowa.Nazwa = nazwa;
+                    }
+                    int idUprawnienia = 0;
+                    if (uprawnieniaDodanie != null)
+                    {
+                        var rola = baza.Rolee.FirstOrDefault(r => r.ID_Roli == id);
+                        var urToAdd = new List<Uprawnienie_Rola>();
+                        
+                        for (int i = 0; i < uprawnieniaDodanie.Length; i++)
+                        {
+                            idUprawnienia = uprawnieniaDodanie[i];
+                            var uprawnienie = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == idUprawnienia);
+                            urToAdd.Add(new Uprawnienie_Rola { Rola = rola, ID_Roli = rola.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
+
+                        }
+                        baza.Uprawnienia_Role.AddRange(urToAdd);
+
+                    }
+
+                    if (uprawnieniaUsuwanie != null)
+                    {
+                        var rola = baza.Rolee.FirstOrDefault(r => r.ID_Roli == id);
+                        var urToAdd = new List<Uprawnienie_Rola>();
+                        for (int i = 0; i < uprawnieniaUsuwanie.Length; i++)
+                        {
+                            idUprawnienia = uprawnieniaUsuwanie[i];
+                            var uprawnienie = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == idUprawnienia);
+                            urToAdd.Add(new Uprawnienie_Rola { Rola = rola, ID_Roli = rola.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
+
+                        }
+                        int idRoli = 0;
+                        int idUpr = 0;
+                        for (int i = 0; i < urToAdd.Count(); i++)
+                        {
+                            idRoli = urToAdd[i].ID_Roli;
+                            idUpr = urToAdd[i].ID_Uprawnienia;
+                            baza.Uprawnienia_Role.Remove(baza.Uprawnienia_Role.FirstOrDefault(u => u.ID_Roli == idRoli && u.ID_Uprawnienia == idUpr));
+                        }
+                        
                     }
                     baza.SaveChanges();
                     /*var role = baza.Rolee.FirstOrDefault(k => k.ID_Roli == value.ID_Roli);
@@ -223,9 +261,9 @@ namespace BSK.Controllers
             {
                 using (DB baza = new DB())
                 {
-                    baza.Rolee.Remove(baza.Rolee.FirstOrDefault(k => k.ID_Roli == id));
                     var rolesPermissions = baza.Uprawnienia_Role.Where(r => r.ID_Roli == id);
                     baza.Uprawnienia_Role.RemoveRange(rolesPermissions);
+                    baza.Rolee.Remove(baza.Rolee.FirstOrDefault(k => k.ID_Roli == id));
                     baza.SaveChanges();
                 }
             }

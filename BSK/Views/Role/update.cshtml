@@ -69,7 +69,8 @@
     <button type="button" onclick="wybierz()">Wybierz</button>
     <div id="aktualizacja" style="display:none">
         Nazwa: <input type="text" id="nazwa" />
-
+        <div id="dodaj"></div>
+        <div id="usun"></div>
         <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
     </div>
 
@@ -215,44 +216,145 @@
                 },
             });
         }
-            function wybierz() {
-                document.getElementById("aktualizacja").style.display = "block";
-            }
-            function func() {
-                var role = new Array();
+        function wybierz() {
+            var id = document.getElementById("identyfikator").value;
+            var wszystkieRole = new Array();
+            var wszystkieUprawnienia = new Array();
+            var rola;
+            var doDodania = '<h4>Które uprawnienia chcesz dodać </h4><form id="dodawanie">';
+            var doUsuniecia = '<h4>Które uprawnienia chcesz usunąć </h4><form id="usuwanie">';
+            var czyUzyte = false;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        wszystkieRole[i] = data[i];
+                    }
+                    for (i = 0; i < wszystkieRole.length; i++) {
+                        if(wszystkieRole[i].ID_Roli == id)
+                        {
+                            rola = wszystkieRole[i];
+                            break;
+                        }
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Get", "Uprawnienia")',
+                        data: "a",
+                        success: function (data) {
+                            debugger;
+                            for (i = 0; i < data.length; i++) {
+                                wszystkieUprawnienia[i] = data[i];
+                            }
 
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("Get", "Role")',
-                    data: "a",
-                    success: function (data) {
-                        for (i = 0; i < data.length; i++) {
-                            role[i] = data[i];
-                        }
-                        var lista = "<li>ID - Nazwa</li>";
-                        for (i = 0; i < role.length ; i++) {
-                            lista += "<li>";
-                            lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
-                        }
-                        document.getElementById("lista_rol").innerHTML = lista;
-                        return;
-                    },
-                });
+                            for (i = 0; i < wszystkieUprawnienia.length; i++)
+                            {
+                                czyUzyte = false;
+                                for (j = 0; j < rola.Uprawnienie_Rola.length; j++)
+                                {
+                                    debugger;
+                                    //do usuniecia
+                                    if (wszystkieUprawnienia[i].ID_Uprawnienia == rola.Uprawnienie_Rola[j].Uprawnienie.ID_Uprawnienia) {
+                                        doUsuniecia += '<input type="checkbox" id="';
+                                        doUsuniecia += wszystkieUprawnienia[i].ID_Uprawnienia + '" value="">' + wszystkieUprawnienia[i].Nazwa_tabeli + " - ";
+
+                                        if (wszystkieUprawnienia[i].Instrukcja == "insert") {
+                                            doUsuniecia += "Dodaj <br />";
+                                        }
+                                        else if (wszystkieUprawnienia[i].Instrukcja == "update") {
+                                            doUsuniecia += "Zaktualizuj <br />";
+                                        }
+                                        else if (wszystkieUprawnienia[i].Instrukcja == "delete") {
+                                            doUsuniecia += "Usuń <br />";
+                                        }
+                                        else if (wszystkieUprawnienia[i].Instrukcja == "select") {
+                                            doUsuniecia += "Przeglądaj <br />";
+                                        }
+                                        czyUzyte = true;
+                                    }
+                                }
+                                if(!czyUzyte) {
+                                    doDodania += '<input type="checkbox" id="';
+                                    doDodania += wszystkieUprawnienia[i].ID_Uprawnienia + '" value="">' + wszystkieUprawnienia[i].Nazwa_tabeli + " ";
+
+                                    if (wszystkieUprawnienia[i].Instrukcja == "insert") {
+                                        doDodania += "Dodaj <br />";
+                                    }
+                                    else if (wszystkieUprawnienia[i].Instrukcja == "update") {
+                                        doDodania += "Zaktualizuj <br />";
+                                    }
+                                    else if (wszystkieUprawnienia[i].Instrukcja == "delete") {
+                                        doDodania += "Usuń <br />";
+                                    }
+                                    else if (wszystkieUprawnienia[i].Instrukcja == "select") {
+                                        doDodania += "Przeglądaj <br />";
+                                    }
+                                }
+                            }
+                            doUsuniecia += "</form><br />";
+                            doDodania += "</form><br />";
+
+                            document.getElementById("dodaj").innerHTML = doDodania;
+                            document.getElementById("usun").innerHTML = doUsuniecia;
+                            document.getElementById("aktualizacja").style.display = "block";
+                        },
+                    });
+                    return;
+                },
+            });
+
+        }
+        function func() {
+            var role = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        role[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa</li>";
+                    for (i = 0; i < role.length ; i++) {
+                        lista += "<li>";
+                        lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
+                    }
+                    document.getElementById("lista_rol").innerHTML = lista;
+                    return;
+                },
+            });
+        }
+        function zaktualizuj() {
+            var wartosci = $("#dodawanie").find("input[type='checkbox']:checked").get();
+
+            var uprawnieniaDodanie = new Array();
+            for (i = 0; i < wartosci.length; i++) {
+                uprawnieniaDodanie[i] = wartosci[i].id;
             }
-            function zaktualizuj() {
-                var nazwa = document.getElementById("nazwa").value;
-                var id = document.getElementById("identyfikator").value;
-                var postData = { nazwa,id };
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("Put", "Role")',
-                    data: postData,
-                    success: function (data) {
-                        location.href = '@Url.Action("update", "Role")';
-                        return;
-                    },
-                });
+
+            var wartosci = $("#usuwanie").find("input[type='checkbox']:checked").get();
+
+            var uprawnieniaUsuwanie = new Array();
+            for (i = 0; i < wartosci.length; i++) {
+                uprawnieniaUsuwanie[i] = wartosci[i].id;
             }
+
+            var nazwa = document.getElementById("nazwa").value;
+            var id = document.getElementById("identyfikator").value;
+            var postData = { nazwa,id , uprawnieniaDodanie, uprawnieniaUsuwanie}
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Put", "Role")',
+                data: postData,
+                success: function (data) {
+                    location.href = '@Url.Action("update", "Role")';
+                    return;
+                },
+            });
+        }
 
 
     </script>
