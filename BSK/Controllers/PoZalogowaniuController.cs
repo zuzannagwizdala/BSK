@@ -10,9 +10,9 @@ namespace BSK.Controllers
     public class PoZalogowaniuController : Controller
     {
         // GET: PoZalogowaniu
-        public ActionResult PoZalogowaniu(string a)
+        public ActionResult PoZalogowaniu()
         {
-            ViewBag.Message = a;
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
     }

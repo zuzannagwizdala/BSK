@@ -16,26 +16,31 @@ namespace BSK.Controllers
         // GET: Autorzy
         public ActionResult Index()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult del()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult update()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult select()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult insert()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ksiegarnia bezpieczna</title>
 </head>
-<body onload="func()">
+<body onload="gorneMenu()">
     
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -43,20 +43,6 @@
                     <div id="update.kategorie" style="color:black">Zaktualizuj</div>
                     <div id="select.kategorie" style="color:black">Przejrzyj</div>
                 </div>
-                <!-- <div style="float:left; padding:10px;">
-                    <h4 style="color:#808080">Dostawy</h4>
-                    <div id="insert.dostawy" style="color:black">Dodaj</div>
-                    <div id="delete.dostawy" style="color:black">Usuń</div>
-                    <div id="update.dostawy" style="color:black">Zaktualizuj</div>
-                    <div id="select.dostawy" style="color:black">Przejrzyj</div>
-                </div>
-                <div style="float:left; padding:10px;">
-                    <h4 style="color:#808080">Sprzedaże</h4>
-                    <div id="insert.sprzedaze" style="color:black">Dodaj</div>
-                    <div id="delete.sprzedaze" style="color:black">Usuń</div>
-                    <div id="update.sprzedaze" style="color:black">Zaktualizuj</div>
-                    <div id="select.sprzedaze" style="color:black">Przejrzyj</div>
-                </div> -->
                 <div style="float:left; padding:10px;">
                     <h4 style="color:#808080">Użytkownicy</h4>
                     <div id="insert.uzytkownicy" style="color:black">Dodaj</div>
@@ -79,7 +65,7 @@
 
 
     <script type="text/javascript">
-        function func(){
+        function gorneMenu(){
             var a = "";
             a = '@ViewBag.Message';
             var res = a.split("-");
@@ -156,43 +142,6 @@
                         link += "Przeglądaj</a>";
                     }
                 }
-                /* else if (instrukcja_tabela[1] == "dostawy")
-                {
-                    if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Dostawy/insert/">';
-                        link += "Dodaj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Dostawy/del/">';
-                        link += "Usuń</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Dostawy/update/">';
-                        link += "Aktualizuj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Dostawy/select/">';
-                        link += "Przeglądaj</a>";
-                    }
-                }
-                else if (instrukcja_tabela[1] == "sprzedaze") {
-                    if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Sprzedaze/insert/">';
-                        link += "Dodaj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Sprzedaze/del/">';
-                        link += "Usuń</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Sprzedaze/update/">';
-                        link += "Aktualizuj</a>";
-                    }
-                    else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Sprzedaze/select/">';
-                        link += "Przeglądaj</a>";
-                    }
-                } */
                 else if (instrukcja_tabela[1] == "uzytkownicy") {
                     if (instrukcja_tabela[0] == "insert") {
                         link += adres + '/Uzytkownicy/insert/">';

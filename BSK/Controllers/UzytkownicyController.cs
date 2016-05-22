@@ -15,31 +15,36 @@ namespace BSK.Controllers
         // GET: Uzytkownicy
         public ActionResult Index()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
         public ActionResult del()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult update()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult select()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult insert()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         /*[HttpPost]
         [MyAuthorize(Roles = "uzytkownicy_select")]
-        public JsonResult Get(int id)
+        public JsonResult GetUser(int id)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -57,7 +62,7 @@ namespace BSK.Controllers
                         item.Rola = new Rola { ID_Roli = role.ID_Roli, Nazwa = role.Nazwa };
                     }
                     
-                    odpowiedz.Data = uzytkownik.ToString();
+                    odpowiedz.Data = uzytkownik;
                 }
             }
             catch (Exception ex)
@@ -190,6 +195,16 @@ namespace BSK.Controllers
                 }
                 using (DB baza = new DB())
                 {
+                    var wszyscy = baza.Uzytkownicy.ToList();
+
+                    foreach (var uz in wszyscy)
+                    {
+                        if (uz.Login == value.Login)
+                        {
+                            odpowiedz.Data = "Użytkownik o takim loginie już istnieje w bazie!";
+                            return odpowiedz;
+                        }
+                    }
                     value.Haslo = Models.Uzytkownik.sha256(value.Haslo);
                     var user = baza.Uzytkownicy.Add(value);
 

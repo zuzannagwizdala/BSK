@@ -25,12 +25,12 @@ namespace BSK.Controllers
             using (DB baza = new DB())
             {
                 List<Autor> autorzy = baza.Autorzy.ToList();
-                
+
                 List<Uzytkownik> uzytkownicyWszystko = baza.Uzytkownicy.ToList(); //3
                 List<Rola> roleWszystko = baza.Rolee.ToList();
 
                 List<Uprawnienie> uprawnieniaWszystko = baza.Uprawnienia.ToList();
-                if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == Uzytkownik.sha256(dane.Haslo))) 
+                if (uzytkownicyWszystko.Any(u => u.Login == dane.Login && u.Haslo == Uzytkownik.sha256(dane.Haslo)))
                 {
                     Uzytkownik uzytkownik = uzytkownicyWszystko.First(u => u.Login == dane.Login);
                     var uzytkownik_role = roleWszystko.Where(r => uzytkownik.Uzytkownik_Rola.Select(ur => ur.ID_Roli).Contains(r.ID_Roli));
@@ -84,6 +84,18 @@ namespace BSK.Controllers
                             Uprawnienia = uprawnienia,
                             Data_waznosci = konwertujNaStempel(DateTime.Now.AddMinutes(10))//6
                         };
+
+                        var uprawnieniaLista = zawartoscOdpowiedzi.Uprawnienia.ToList();
+                        var str = "";
+                        str += zawartoscOdpowiedzi.Rola.Nazwa + "-";
+                        for (int i = 0; i < uprawnieniaLista.Count(); i++)
+                        {
+                            str += uprawnieniaLista[i].Instrukcja;
+                            str += ".";
+                            str += uprawnieniaLista[i].Nazwa_tabeli;
+                            str += ";";
+                        }
+                        Session["uprawnienia"] = str;
 
                         // mamy juz przypisane uprawnienia do roli wybranej przez uzytkownika, teraz sesja
 
@@ -152,7 +164,7 @@ namespace BSK.Controllers
             return odpowiedz;
         }
 
-        
+
 
         private static readonly DateTime znak = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 

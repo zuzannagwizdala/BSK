@@ -15,31 +15,36 @@ namespace BSK.Controllers
         // GET: Role
         public ActionResult Index()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
         public ActionResult del()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult update()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult select()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
         public ActionResult insert()
         {
+            ViewBag.Message = Session["uprawnienia"];
             return View();
         }
 
-        /*[HttpPost]
+        [HttpPost]
         [MyAuthorize(Roles = "role_select")]
-        public JsonResult Get(int id)
+        public JsonResult GetRola(int id)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -58,7 +63,7 @@ namespace BSK.Controllers
                     role.Uprawnienie_Rola = rolesPermissions;
                     role.Uprawnienie_Rola.Clear();
                     
-                    odpowiedz.Data = role.ToString();
+                    odpowiedz.Data = role;
                 }
             }
             catch (Exception ex)
@@ -66,7 +71,7 @@ namespace BSK.Controllers
                 odpowiedz.Data = ex.InnerException.ToString();
             }
             return odpowiedz;
-        }*/
+        }
 
         [HttpPost]
         [MyAuthorize(Roles = "role_select")]
@@ -174,6 +179,16 @@ namespace BSK.Controllers
                 }
                 using (DB baza = new DB())
                 {
+                    var wszystkie = baza.Rolee.ToList();
+
+                    foreach (var rol in wszystkie)
+                    {
+                        if (rol.Nazwa == nazwa)
+                        {
+                            odpowiedz.Data = "Rola o takiej nazwie już istnieje w bazie!";
+                            return odpowiedz;
+                        }
+                    }
                     Rola value = new Rola();
                     var rola = baza.Rolee.Add(value);
                     value.Nazwa = nazwa;

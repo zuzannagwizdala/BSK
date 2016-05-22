@@ -88,11 +88,46 @@
                             radio += tablica_rol[j].ID_Roli;
                             radio += "'>";
                             radio += tablica_rol[j].Nazwa;
-                            radio += "</input><div></div>";
+                            radio += "</input><br />";
                         }
-                        document.getElementById("komunikat").innerHTML = radio;
-                        document.getElementById("login").style.display = "none";
-                        document.getElementById("haslo").style.display = "none";
+                        var uzytkownicy = new Array();
+                        var id = 0;
+                        var czyWypisany = false;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Get", "Uzytkownicy")',
+                            data: "a",
+                            success: function (data) {
+                                for (i = 0; i < data.length; i++) {
+                                    uzytkownicy[i] = data[i];
+                                }
+                                for (i = 0; i < uzytkownicy.length ; i++) {
+                                    debugger;
+                                    if (uzytkownicy[i].Login == login) {
+                                        for (j = 0; j < uzytkownicy[i].Uzytkownik_Rola.length; j++) {
+                                            czyWypisany = false;
+                                            for (k = 0; k < tablica_rol.length; k++) {
+                                                if (tablica_rol[k].ID_Roli == uzytkownicy[i].Uzytkownik_Rola[j].ID_Roli) {
+                                                    czyWypisany = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!czyWypisany) {
+                                                radio += stala;
+                                                radio += uzytkownicy[i].Uzytkownik_Rola[j].ID_Roli;
+                                                radio += "' disabled >";
+                                                radio += uzytkownicy[i].Uzytkownik_Rola[j].Rola.Nazwa;
+                                                radio += "</input><br />";
+                                            }
+                                        }
+                                    }
+                                }
+                                document.getElementById("komunikat").innerHTML = radio;
+                                document.getElementById("login").style.display = "none";
+                                document.getElementById("haslo").style.display = "none";
+                                return;
+                            },
+                        });
                     }
                     else {
                         if (data == "Nie możesz zalogować się na tej roli, ponieważ jesteś już zalogowany na innej.") {
@@ -110,7 +145,7 @@
                             str += uprawnienia[i].Nazwa_tabeli;
                             str += ";";
                         }
-                        location.href = '@Url.Action("PoZalogowaniu", "PoZalogowaniu")?a=' + str;
+                        location.href = '@Url.Action("PoZalogowaniu", "PoZalogowaniu")';
                     }
                 },
             });

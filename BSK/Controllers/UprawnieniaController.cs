@@ -74,7 +74,7 @@ namespace BSK.Controllers
                         uprawnienia[index].Uprawnienie_Rola.Clear();
                     }
                     
-                    odpowiedz.Data = uprawnienia.OrderBy(a => a.ID_Uprawnienia).ToString();
+                    odpowiedz.Data = uprawnienia.OrderBy(a => a.ID_Uprawnienia);
                 }
             }
             catch (Exception ex)

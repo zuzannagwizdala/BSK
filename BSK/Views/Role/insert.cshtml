@@ -10,18 +10,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ksiegarnia bezpieczna</title>
 </head>
-<body>
+<body onload="gorneMenu()">
+
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Ksiegarnia bezpieczna</a>
+                <a class="navbar-brand" href="#" style="float:left">Ksiegarnia bezpieczna</a>
+                <div align="center" id="powitanie"></div>
+                <div align="center"><button type="button" onclick="wyloguj()">Wyloguj</button></div>
             </div>
         </div>
+
+        <div align="center" style="margin-left:300px;">
+            <div style="float:left; padding:10px;">
+                <h4 style="color:#808080">Autorzy</h4>
+                <div id="insert.autorzy" style="color:black">Dodaj</div>
+                <div id="delete.autorzy" style="color:black">Usuń</div>
+                <div id="update.autorzy" style="color:black">Zaktualizuj</div>
+                <div id="select.autorzy" style="color:black">Przejrzyj</div>
+            </div>
+            <div style="float:left; padding:10px;">
+                <h4 style="color:#808080">Książki</h4>
+                <div id="insert.ksiazki" style="color:black">Dodaj</div>
+                <div id="delete.ksiazki" style="color:black">Usuń</div>
+                <div id="update.ksiazki" style="color:black">Zaktualizuj</div>
+                <div id="select.ksiazki" style="color:black">Przejrzyj</div>
+            </div>
+            <div style="float:left; padding:10px;">
+                <h4 style="color:#808080">Kategorie</h4>
+                <div id="insert.kategorie" style="color:black">Dodaj</div>
+                <div id="delete.kategorie" style="color:black">Usuń</div>
+                <div id="update.kategorie" style="color:black">Zaktualizuj</div>
+                <div id="select.kategorie" style="color:black">Przejrzyj</div>
+            </div>
+            <div style="float:left; padding:10px;">
+                <h4 style="color:#808080">Użytkownicy</h4>
+                <div id="insert.uzytkownicy" style="color:black">Dodaj</div>
+                <div id="delete.uzytkownicy" style="color:black">Usuń</div>
+                <div id="update.uzytkownicy" style="color:black">Zaktualizuj</div>
+                <div id="select.uzytkownicy" style="color:black">Przejrzyj</div>
+            </div>
+            <div style="float:left; padding:10px;">
+                <h4 style="color:#808080">Role</h4>
+                <div id="insert.role" style="color:black">Dodaj</div>
+                <div id="delete.role" style="color:black">Usuń</div>
+                <div id="update.role" style="color:black">Zaktualizuj</div>
+                <div id="select.role" style="color:black">Przejrzyj</div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
     </nav>
     <h2>Dodawanie roli</h2>
-
+    <button type="button" onclick="func()">Wyświetl listę ról</button>
+    <div id="lista_rol"></div>
     <br />
-
     <p>Wpisz nazwę dla nowej roli:</p><input type="text" id="nazwa" />
 
 
@@ -77,14 +119,175 @@
                 <label><input type="checkbox" id="19" value="">Przejrzyj</label><br />
             </div>
             <div style="clear:both"></div>
-            </form>
+        </form>
         <div id="komunikat"></div><div id="kolejna_rola"></div>
-</div>
+    </div>
 
     <button type="button" onclick="dodaj()" id="przycisk_dodaj">Dodaj</button>
 
     <script type="text/javascript">
+        function wyloguj() {
+            var ID_Sesji = "";
+            a = '@ViewBag.Message';
+            var res = a.split("-");
+            var nazwa_uzytkownika = res[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LogOutSession", "LogOut")',
+                data: { nazwa_uzytkownika},
+                success: function (data) {
+                    ID_Sesji = data;
 
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Post", "LogOut")',
+                        data: { ID_Sesji },
+                        success: function (data) {
+                            location.href = '@Url.Action("Index", "Home")';
+                        },
+                    });
+                },
+            });
+        }
+        function gorneMenu(){
+            var a = "";
+            a = '@ViewBag.Message';
+            var res = a.split("-");
+            var nazwa_uzytkownika = res[0];
+            document.getElementById("powitanie").innerHTML = "Witaj, " + nazwa_uzytkownika;
+            document.getElementById("powitanie").style.color = "white";
+            document.getElementById("powitanie").style.marginTop = "15px";
+            document.getElementById("powitanie").style.marginLeft = "15px";
+
+            var uprawnienia = res[1];
+            var tablica_uprawnien = uprawnienia.split(";");
+            tablica_uprawnien.pop();
+            for (i = 0; i < tablica_uprawnien.length; i++)
+            {
+                var adres = @Url.Action("Index", "Home");
+                debugger;
+                var link = '<a style="color:white;" href="';
+
+                var instrukcja_tabela = tablica_uprawnien[i].split(".");
+                if(instrukcja_tabela[1]=="autorzy")
+                {
+                    if(instrukcja_tabela[0]=="insert"){
+                        link += adres + '/Autorzy/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += adres + '/Autorzy/del/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += adres + '/Autorzy/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += adres + '/Autorzy/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "ksiazki")
+                {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += adres + '/Ksiazki/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += adres + '/Ksiazki/del/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += adres + '/Ksiazki/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += adres + '/Ksiazki/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "kategorie")
+                {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += adres + '/Kategorie/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += adres + '/Kategorie/del/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += adres + '/Kategorie/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += adres + '/Kategorie/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "uzytkownicy") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += adres + '/Uzytkownicy/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += adres + '/Uzytkownicy/del/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += adres + '/Uzytkownicy/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += adres + '/Uzytkownicy/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                else if (instrukcja_tabela[1] == "role") {
+                    if (instrukcja_tabela[0] == "insert") {
+                        link += adres + '/Role/insert/">';
+                        link += "Dodaj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "delete") {
+                        link += adres + '/Role/del/">';
+                        link += "Usuń</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "update") {
+                        link += adres + '/Role/update/">';
+                        link += "Aktualizuj</a>";
+                    }
+                    else if (instrukcja_tabela[0] == "select") {
+                        link += adres + '/Role/select/">';
+                        link += "Przeglądaj</a>";
+                    }
+                }
+                document.getElementById(tablica_uprawnien[i]).innerHTML = link;
+                document.getElementById(tablica_uprawnien[i]).style.color = "white";
+                debugger;
+            }
+        }
+        function func() {
+            var role = new Array();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Role")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        role[i] = data[i];
+                    }
+                    var lista = "<li>ID - Nazwa</li>";
+                    for (i = 0; i < role.length ; i++) {
+                        lista += "<li>";
+                        lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
+                    }
+                    document.getElementById("lista_rol").innerHTML = lista;
+                    return;
+                },
+            });
+        }
         function dodaj() {
             var nazwa = document.getElementById("nazwa").value;
             var uprawnienia = nazwa + ";";
@@ -101,6 +304,9 @@
                 data: { uprawnienia },
                 success: function (data) {
                     if (data == "Podaj nazwę aby dodać rolę!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else if (data == "Rola o takiej nazwie już istnieje w bazie!") {
                         document.getElementById("komunikat").innerHTML = data;
                     }
                     else {
