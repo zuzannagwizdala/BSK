@@ -126,14 +126,13 @@ namespace BSK.Controllers
                     int idUprawnienia = 0;
                     if (uprawnieniaDodanie != null)
                     {
-                        var rola = baza.Rolee.FirstOrDefault(r => r.ID_Roli == id);
                         var urToAdd = new List<Uprawnienie_Rola>();
                         
                         for (int i = 0; i < uprawnieniaDodanie.Length; i++)
                         {
                             idUprawnienia = uprawnieniaDodanie[i];
                             var uprawnienie = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == idUprawnienia);
-                            urToAdd.Add(new Uprawnienie_Rola { Rola = rola, ID_Roli = rola.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
+                            urToAdd.Add(new Uprawnienie_Rola { Rola = nowa, ID_Roli = nowa.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
 
                         }
                         baza.Uprawnienia_Role.AddRange(urToAdd);
@@ -142,13 +141,12 @@ namespace BSK.Controllers
 
                     if (uprawnieniaUsuwanie != null)
                     {
-                        var rola = baza.Rolee.FirstOrDefault(r => r.ID_Roli == id);
                         var urToAdd = new List<Uprawnienie_Rola>();
                         for (int i = 0; i < uprawnieniaUsuwanie.Length; i++)
                         {
                             idUprawnienia = uprawnieniaUsuwanie[i];
                             var uprawnienie = baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == idUprawnienia);
-                            urToAdd.Add(new Uprawnienie_Rola { Rola = rola, ID_Roli = rola.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
+                            urToAdd.Add(new Uprawnienie_Rola { Rola = nowa, ID_Roli = nowa.ID_Roli, Uprawnienie = uprawnienie, ID_Uprawnienia = uprawnienie.ID_Uprawnienia });
 
                         }
                         int idRoli = 0;

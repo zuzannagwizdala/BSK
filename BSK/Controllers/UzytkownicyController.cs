@@ -104,7 +104,7 @@ namespace BSK.Controllers
 
         [HttpPost]
         [MyAuthorize(Roles = "uzytkownicy_update")]
-        public JsonResult Put(int id, string login, string nazwa, string stareHaslo, string noweHaslo )    //(Uzytkownik value)
+        public JsonResult Put(int id, string login, string nazwa, string stareHaslo, string noweHaslo, int[] roleDodanie, int[] roleUsuwanie)    //(Uzytkownik value)
         {
             JsonResult odpowiedz = new JsonResult();
             odpowiedz.Data = " ";
@@ -140,6 +140,42 @@ namespace BSK.Controllers
                             odpowiedz.Data = "Oba hasła muszą być podane aby dokonać zmiany!";
                         }
                     }
+                    int idRoli = 0;
+                    if (roleDodanie != null)
+                    {
+                        var urToAdd = new List<Uzytkownik_Rola>();
+
+                        for (int i = 0; i < roleDodanie.Length; i++)
+                        {
+                            idRoli = roleDodanie[i];
+                            var rola = baza.Rolee.FirstOrDefault(p => p.ID_Roli == idRoli);
+                            urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = rola, ID_Roli = rola.ID_Roli });
+
+                        }
+                        baza.Uzytkownicy_Role.AddRange(urToAdd);
+
+                    }
+
+                    if (roleUsuwanie != null)
+                    {
+                        var urToAdd = new List<Uzytkownik_Rola>();
+                        for (int i = 0; i < roleUsuwanie.Length; i++)
+                        {
+                            idRoli = roleUsuwanie[i];
+                            var rola = baza.Rolee.FirstOrDefault(p => p.ID_Roli == idRoli);
+                            urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = rola, ID_Roli = rola.ID_Roli });
+
+                        }
+                        int idUzytkownika = 0;
+                        for (int i = 0; i < urToAdd.Count(); i++)
+                        {
+                            idRoli = urToAdd[i].ID_Roli;
+                            idUzytkownika = urToAdd[i].ID_Uzytkownika;
+                            baza.Uzytkownicy_Role.Remove(baza.Uzytkownicy_Role.FirstOrDefault(u => u.ID_Roli == idRoli && u.ID_Uzytkownika == idUzytkownika));
+                        }
+
+                    }
+                    baza.SaveChanges();
 
                     /*if (value.Haslo != null)
                     {

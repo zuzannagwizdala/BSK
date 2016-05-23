@@ -71,7 +71,8 @@
         Nazwa: <input type="text" id="nazwa" />
         Stare hasło: <input type="password" id="starehaslo" />
         Nowe hasło: <input type="password" id="nowehaslo" />
-
+        <div id="dodaj"></div>
+        <div id="usun"></div>
         <button type="button" onclick="zaktualizuj()">Zaktualizuj</button>
 
         <div id="komunikat" style="float:left"></div>
@@ -196,10 +197,96 @@
                 debugger;
             }
         }
-            function wybierz() {
-                document.getElementById("aktualizacja").style.display = "block";
-            }
-            function func() {
+        function wyloguj() {
+            var ID_Sesji = "";
+            a = '@ViewBag.Message';
+            var res = a.split("-");
+            var nazwa_uzytkownika = res[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LogOutSession", "LogOut")',
+                data: { nazwa_uzytkownika},
+                success: function (data) {
+                    ID_Sesji = data;
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Post", "LogOut")',
+                        data: { ID_Sesji },
+                        success: function (data) {
+                            location.href = '@Url.Action("Index", "Home")';
+                        },
+                    });
+                },
+            });
+        }
+        function wybierz() {
+            var id = document.getElementById("identyfikator").value;
+            var wszyscyUzytkownicy = new Array();
+            var wszystkieRoleNoweDoZmiany = new Array();
+            var uzytkownik;
+            var doDodania = '<h4>Które role chcesz dodać </h4><form id="dodawanie">';
+            var doUsuniecia = '<h4>Które role chcesz usunąć </h4><form id="usuwanie">';
+            var czyUzyte = false;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Get", "Uzytkownicy")',
+                data: "a",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        wszyscyUzytkownicy[i] = data[i];
+                    }
+                    for (i = 0; i < wszyscyUzytkownicy.length; i++) {
+                        if(wszyscyUzytkownicy[i].ID_Uzytkownika == id)
+                        {
+                            uzytkownik = wszyscyUzytkownicy[i];
+                            break;
+                        }
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Get", "Role")',
+                        data: "a",
+                        success: function (data) {
+                            debugger;
+                            for (i = 0; i < data.length; i++) {
+                                wszystkieRoleNoweDoZmiany[i] = data[i];
+                            }
+
+                            for (i = 0; i < wszystkieRoleNoweDoZmiany.length; i++)
+                            {
+                                czyUzyte = false;
+                                for (j = 0; j < uzytkownik.Uzytkownik_Rola.length; j++)
+                                {
+                                    debugger;
+                                    //do usuniecia
+                                    if (wszystkieRoleNoweDoZmiany[i].ID_Roli == uzytkownik.Uzytkownik_Rola[j].Rola.ID_Roli) {
+                                        doUsuniecia += '<input type="checkbox" id="';
+                                        doUsuniecia += wszystkieRoleNoweDoZmiany[i].ID_Roli + '" value="">' + wszystkieRoleNoweDoZmiany[i].Nazwa + " <br />";
+
+                                        czyUzyte = true;
+                                    }
+                                }
+                                if(!czyUzyte) {
+                                    doDodania += '<input type="checkbox" id="';
+                                    doDodania += wszystkieRoleNoweDoZmiany[i].ID_Roli + '" value="">' + wszystkieRoleNoweDoZmiany[i].Nazwa + " <br />";
+
+                                }
+                            }
+                            doUsuniecia += "</form><br />";
+                            doDodania += "</form><br />";
+
+                            document.getElementById("dodaj").innerHTML = doDodania;
+                            document.getElementById("usun").innerHTML = doUsuniecia;
+                            document.getElementById("aktualizacja").style.display = "block";
+                        },
+                    });
+                    return;
+                },
+            });
+
+        }
+        function func() {
             var uzytkownicy = new Array();
 
             $.ajax({
@@ -220,35 +307,48 @@
                 },
             });
         }
-            function zaktualizuj() {
+        function zaktualizuj() {
+            var wartosci = $("#dodawanie").find("input[type='checkbox']:checked").get();
 
-                var id = document.getElementById("identyfikator").value;
-                var login = document.getElementById("login").value;
-                var nazwa = document.getElementById("nazwa").value;
-                var stareHaslo = document.getElementById("starehaslo").value;
-                var noweHaslo = document.getElementById("nowehaslo").value;
-
-                debugger;
-                var postData = { id, login, nazwa, stareHaslo, noweHaslo };
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("Put", "Uzytkownicy")',
-                    data: postData,
-                    success: function (data) {
-
-                        if (data == "Podano niepoprawne hasło, zmiana nie powiodła się!") {
-                            document.getElementById("komunikat").innerHTML = data;
-                        }
-                        else if (data == "Oba hasła muszą być podane aby dokonać zmiany!") {
-                            document.getElementById("komunikat").innerHTML = data;
-                        }
-                        else {
-                            location.href = '@Url.Action("update", "Uzytkownicy")';
-                        }
-                        return;
-                    },
-                });
+            var roleDodanie = new Array();
+            for (i = 0; i < wartosci.length; i++) {
+                roleDodanie[i] = wartosci[i].id;
             }
+
+            var wartosci = $("#usuwanie").find("input[type='checkbox']:checked").get();
+
+            var roleUsuwanie = new Array();
+            for (i = 0; i < wartosci.length; i++) {
+                roleUsuwanie[i] = wartosci[i].id;
+            }
+
+            var id = document.getElementById("identyfikator").value;
+            var login = document.getElementById("login").value;
+            var nazwa = document.getElementById("nazwa").value;
+            var stareHaslo = document.getElementById("starehaslo").value;
+            var noweHaslo = document.getElementById("nowehaslo").value;
+
+            debugger;
+            var postData = { id, login, nazwa, stareHaslo, noweHaslo , roleDodanie , roleUsuwanie };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Put", "Uzytkownicy")',
+                data: postData,
+                success: function (data) {
+
+                    if (data == "Podano niepoprawne hasło, zmiana nie powiodła się!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else if (data == "Oba hasła muszą być podane aby dokonać zmiany!") {
+                        document.getElementById("komunikat").innerHTML = data;
+                    }
+                    else {
+                        location.href = '@Url.Action("update", "Uzytkownicy")';
+                    }
+                    return;
+                },
+            });
+        }
 
 
     </script>

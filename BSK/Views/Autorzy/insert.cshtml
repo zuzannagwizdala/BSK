@@ -192,30 +192,31 @@
                 debugger;
             }
         }
-        function func() {
-            function wyloguj() {
-                var ID_Sesji = "";
-                a = '@ViewBag.Message';
-                var res = a.split("-");
-                var nazwa_uzytkownika = res[0];
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("LogOutSession", "LogOut")',
-                    data: { nazwa_uzytkownika},
-                    success: function (data) {
-                        ID_Sesji = data;
+        function wyloguj() {
+            var ID_Sesji = "";
+            a = '@ViewBag.Message';
+            var res = a.split("-");
+            var nazwa_uzytkownika = res[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LogOutSession", "LogOut")',
+                data: { nazwa_uzytkownika},
+                success: function (data) {
+                    ID_Sesji = data;
 
-                        $.ajax({
-                            type: "POST",
-                            url: '@Url.Action("Post", "LogOut")',
-                            data: { ID_Sesji },
-                            success: function (data) {
-                                location.href = '@Url.Action("Index", "Home")';
-                            },
-                        });
-                    },
-                });
-            }
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Post", "LogOut")',
+                        data: { ID_Sesji },
+                        success: function (data) {
+                            location.href = '@Url.Action("Index", "Home")';
+                        },
+                    });
+                },
+            });
+        }
+        function func() {
+            
             var autorzy = new Array();
 
             $.ajax({
