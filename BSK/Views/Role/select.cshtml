@@ -215,16 +215,18 @@
                         role[i] = data[i];
                     }
                     debugger;
-                    var lista = "<h3>ID - Nazwa</h3>";
+                    var lista = "<table>";
                     for (i = 0; i < role.length ; i++) {
-                        lista += "<li>";
+                        lista += "<tr>";
                         debugger;
-                        lista += role[i].ID_Roli.toString() + " - " + role[i].Nazwa + "</li>";
-                        lista += "<ul><h5>Nazwa tabeli - Instrukcja</h5></ul>";
+                        lista += "<td><b>" +role[i].Nazwa + ", ID: " + role[i].ID_Roli.toString() + "</b></td></tr>";
+                       // lista += "<ul><h5>Nazwa tabeli - Instrukcja</h5></ul>";
                         for (j = 0; j < role[i].Uprawnienie_Rola.length; j++) {
-                            lista += "<ul>" + role[i].Uprawnienie_Rola[j].Uprawnienie.Nazwa_tabeli + " " + role[i].Uprawnienie_Rola[j].Uprawnienie.Instrukcja + "</ul>";
+                            lista += "<tr><td>" + role[i].Uprawnienie_Rola[j].Uprawnienie.Nazwa_tabeli + "</td><td>" + role[i].Uprawnienie_Rola[j].Uprawnienie.Instrukcja + "</td></tr>";
                         }
+                        
                     }
+                    lista+="</table>";
                     document.getElementById("lista_rol").innerHTML = lista;
                     return;
                 },

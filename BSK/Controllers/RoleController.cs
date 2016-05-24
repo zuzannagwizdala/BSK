@@ -261,6 +261,8 @@ namespace BSK.Controllers
                 {
                     var rolesPermissions = baza.Uprawnienia_Role.Where(r => r.ID_Roli == id);
                     baza.Uprawnienia_Role.RemoveRange(rolesPermissions);
+                    var rolesUsers = baza.Uzytkownicy_Role.Where(r => r.ID_Roli == id);
+                    baza.Uzytkownicy_Role.RemoveRange(rolesUsers);
                     baza.Rolee.Remove(baza.Rolee.FirstOrDefault(k => k.ID_Roli == id));
                     baza.SaveChanges();
                 }

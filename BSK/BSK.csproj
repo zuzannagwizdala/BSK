@@ -224,7 +224,6 @@
     <Compile Include="Autoryzacja.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AutorzyController.cs" />
-    <Compile Include="Controllers\DostawyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KategorieController.cs" />
     <Compile Include="Controllers\KsiazkiController.cs" />
@@ -233,7 +232,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PoZalogowaniuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\SprzedazeController.cs" />
     <Compile Include="Controllers\UprawnieniaController.cs" />
     <Compile Include="Controllers\UzytkownicyController.cs" />
     <Compile Include="Global.asax.cs">
@@ -327,10 +325,6 @@
     <Content Include="Views\Role\insert.cshtml" />
     <Content Include="Views\Role\select.cshtml" />
     <Content Include="Views\Role\update.cshtml" />
-    <Content Include="Views\Sprzedaze\del.cshtml" />
-    <Content Include="Views\Sprzedaze\insert.cshtml" />
-    <Content Include="Views\Sprzedaze\select.cshtml" />
-    <Content Include="Views\Sprzedaze\update.cshtml" />
     <Content Include="Views\Uprawnienia\select.cshtml" />
     <Content Include="Views\Uprawnienia\insert.cshtml" />
     <Content Include="Views\Uprawnienia\update.cshtml" />
