@@ -44,17 +44,6 @@ namespace BSK.Models
 
         public virtual List<Ksiazka> Ksiazki { get; set; }
     }
-    /*
-    [Table("Sprzedaze", Schema = "public")]
-    public class Sprzedaz
-    {
-        [Key]
-        [Column("ID_Sprzedazy")]
-        public int ID_Sprzedazy { get; set; }
-
-        [Column("Data_sprzedazy")]
-        public DateTime Data_sprzedazy { get; set; }
-    }*/
 
     [Table("Ksiazki", Schema = "public")]
     public class Ksiazka
@@ -69,12 +58,6 @@ namespace BSK.Models
         [Column("Liczba_dostepnych")]
         public int Liczba_dostepnych { get; set; }
 
-        [Column("Cena_dostawa")]
-        public double Cena_dostawa { get; set; }
-
-        [Column("Cena_sprzedaz")]
-        public double Cena_sprzedaz { get; set; }
-
         [Column("ISBN")]
         public string ISBN { get; set; }
 
@@ -88,54 +71,6 @@ namespace BSK.Models
         public int ID_Kategorii { get; set; }
         public virtual Kategoria Kategoria { get; set; }
     }
-    /*
-
-    [Table("Dostawy", Schema = "public")]
-    public class Dostawa
-    {
-        [Key]
-        [Column("ID_Dostawy")]
-        public int ID_Dostawy { get; set; }
-
-        [Column("Data_dostawy")]
-        public DateTime Data_dostawy { get; set; }
-
-        [Column("Dostawca")]
-        public string Dostawca { get; set; }
-        public virtual List<Ksiazka> Ksiazki { get; set; }
-    }*/
-    /*
-    [Table("Sprzedaze_Ksiazki", Schema = "public")]
-    public class Sprzedaz_Ksiazka
-    {
-        [Key, Column("ID_Sprzedazy", Order = 1)]
-        public int ID_Sprzedazy { get; set; }
-
-        [Key, Column("ID_Ksiazki", Order = 2)]
-        public int ID_Ksiazki { get; set; }
-
-        [Column("Liczba")]
-        public int Liczba { get; set; }
-
-        public Sprzedaz Sprzedaz { get; set; }
-        public Ksiazka Ksiazka { get; set; }
-    }
-
-    [Table("Dostawy_Ksiazki", Schema = "public")]
-    public class Dostawa_Ksiazka
-    {
-        [Key, Column("ID_Dostawy", Order = 1)]
-        public int ID_Dostawy { get; set; }
-
-        [Key, Column("ID_Ksiazki", Order = 2)]
-        public int ID_Ksiazki { get; set; }
-
-        [Column("Liczba")]
-        public int Liczba { get; set; }
-
-        public Dostawa Dostawa { get; set; }
-        public Ksiazka Ksiazka { get; set; }
-    }*/
 
     [Table("Uprawnienia", Schema = "public")]
     public class Uprawnienie
@@ -277,13 +212,11 @@ namespace BSK.Models
      {
          public DB() : base(nameOrConnectionString: "MonkeyFist") { }
          public DbSet<Autor> Autorzy { get; set; }
-         public DbSet<Dostawa> Dostawy { get; set; }
          public DbSet<Kategoria> Kategorie { get; set; }
          public DbSet<Ksiazka> Ksiazki { get; set; }
          public DbSet<Uprawnienie> Uprawnienia { get; set; }
          public DbSet<Rola> Rolee { get; set; }
          public DbSet<Sesja> Sesje { get; set; }
-         public DbSet<Sprzedaz> Sprzedaze { get; set; }
          public DbSet<Uzytkownik> Uzytkownicy { get; set; }
          public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
          public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
@@ -303,9 +236,9 @@ namespace BSK.Models
     [DbConfigurationType(typeof(NpgsqlConfiguration))]
     public class DB : DbContext
     {
-        static String ConnectionString = "Server=192.168.43.40;User ID=postgres;Password=paulina;Database=Ksiegarnia;syncnotification=false;port=5432";
+        static String ConnectionString = "Server=192.168.0.35;User ID=postgres;Password=paulina;Database=Ksiegarnia;syncnotification=false;port=5432";
         public DB()
-            : base(new NpgsqlConnection(ConnectionString), true) {}
+            : base(new NpgsqlConnection(ConnectionString), true) { }
         public DbSet<Autor> Autorzy { get; set; }
         public DbSet<Kategoria> Kategorie { get; set; }
         public DbSet<Ksiazka> Ksiazki { get; set; }
@@ -316,7 +249,6 @@ namespace BSK.Models
         public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
         public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
     }
-    
 }
 
 

@@ -122,14 +122,6 @@ namespace BSK.Controllers
                     {
                         ksiazka.Liczba_dostepnych = value.Liczba_dostepnych;
                     }
-                    if (value.Cena_dostawa != 0)
-                    {
-                        ksiazka.Cena_dostawa = value.Cena_dostawa;
-                    }
-                    if (value.Cena_sprzedaz != 0)
-                    {
-                        ksiazka.Cena_sprzedaz = value.Cena_sprzedaz;
-                    }
                     if (value.Tytul != null)
                     {
                         ksiazka.Tytul = value.Tytul;
@@ -208,8 +200,6 @@ namespace BSK.Controllers
                     ID_Ksiazki = ksiazka.ID_Ksiazki,
                     Tytul = ksiazka.Tytul,
                     Liczba_dostepnych = ksiazka.Liczba_dostepnych,
-                    Cena_dostawa = ksiazka.Cena_dostawa,
-                    Cena_sprzedaz = ksiazka.Cena_sprzedaz,
                     ISBN = ksiazka.ISBN,
                     ID_Autora = ksiazka.ID_Autora,
                     ID_Kategorii = ksiazka.ID_Kategorii
