@@ -107,7 +107,7 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = "";
+                
                 
                 var link = '<a style="color:white;" href="';
 
@@ -115,93 +115,93 @@
                 if(instrukcja_tabela[1]=="autorzy")
                 {
                     if(instrukcja_tabela[0]=="insert"){
-                        link += adres + '/Autorzy/insert/">';
+                        link += '/Autorzy/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Autorzy/del/">';
+                        link += '/Autorzy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Autorzy/update/">';
+                        link += '/Autorzy/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Autorzy/select/">';
+                        link += '/Autorzy/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "ksiazki")
                 {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Ksiazki/insert/">';
+                        link += '/Ksiazki/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Ksiazki/del/">';
+                        link += '/Ksiazki/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Ksiazki/update/">';
+                        link += '/Ksiazki/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Ksiazki/select/">';
+                        link += '/Ksiazki/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "kategorie")
                 {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Kategorie/insert/">';
+                        link += '/Kategorie/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Kategorie/del/">';
+                        link += '/Kategorie/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Kategorie/update/">';
+                        link += '/Kategorie/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Kategorie/select/">';
+                        link += '/Kategorie/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "uzytkownicy") {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Uzytkownicy/insert/">';
+                        link += '/Uzytkownicy/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Uzytkownicy/del/">';
+                        link += '/Uzytkownicy/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Uzytkownicy/update/">';
+                        link += '/Uzytkownicy/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Uzytkownicy/select/">';
+                        link += '/Uzytkownicy/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
                 else if (instrukcja_tabela[1] == "role") {
                     if (instrukcja_tabela[0] == "insert") {
-                        link += adres + '/Role/insert/">';
+                        link += '/Role/insert/">';
                         link += "Dodaj</a>";
                     }
                     else if (instrukcja_tabela[0] == "delete") {
-                        link += adres + '/Role/del/">';
+                        link += '/Role/del/">';
                         link += "Usuń</a>";
                     }
                     else if (instrukcja_tabela[0] == "update") {
-                        link += adres + '/Role/update/">';
+                        link += '/Role/update/">';
                         link += "Aktualizuj</a>";
                     }
                     else if (instrukcja_tabela[0] == "select") {
-                        link += adres + '/Role/select/">';
+                        link += '/Role/select/">';
                         link += "Przeglądaj</a>";
                     }
                 }
