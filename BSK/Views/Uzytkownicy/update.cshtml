@@ -94,8 +94,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -194,7 +194,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
         }
         function wyloguj() {
@@ -248,7 +248,7 @@
                         url: '@Url.Action("Get", "Role")',
                         data: "a",
                         success: function (data) {
-                            debugger;
+                            
                             for (i = 0; i < data.length; i++) {
                                 wszystkieRoleNoweDoZmiany[i] = data[i];
                             }
@@ -258,7 +258,7 @@
                                 czyUzyte = false;
                                 for (j = 0; j < uzytkownik.Uzytkownik_Rola.length; j++)
                                 {
-                                    debugger;
+                                    
                                     //do usuniecia
                                     if (wszystkieRoleNoweDoZmiany[i].ID_Roli == uzytkownik.Uzytkownik_Rola[j].Rola.ID_Roli) {
                                         doUsuniecia += '<input type="checkbox" id="';
@@ -328,7 +328,7 @@
             var stareHaslo = document.getElementById("starehaslo").value;
             var noweHaslo = document.getElementById("nowehaslo").value;
 
-            debugger;
+            
             var postData = { id, login, nazwa, stareHaslo, noweHaslo , roleDodanie , roleUsuwanie };
             $.ajax({
                 type: "POST",

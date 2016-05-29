@@ -90,8 +90,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -190,7 +190,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
         }
         function wyloguj() {
@@ -244,7 +244,7 @@
                         url: '@Url.Action("Get", "Uprawnienia")',
                         data: "a",
                         success: function (data) {
-                            debugger;
+                            
                             for (i = 0; i < data.length; i++) {
                                 wszystkieUprawnienia[i] = data[i];
                             }
@@ -254,7 +254,7 @@
                                 czyUzyte = false;
                                 for (j = 0; j < rola.Uprawnienie_Rola.length; j++)
                                 {
-                                    debugger;
+                                    
                                     //do usuniecia
                                     if (wszystkieUprawnienia[i].ID_Uprawnienia == rola.Uprawnienie_Rola[j].Uprawnienie.ID_Uprawnienia) {
                                         doUsuniecia += '<input type="checkbox" id="';

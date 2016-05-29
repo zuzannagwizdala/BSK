@@ -117,8 +117,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -217,7 +217,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
         }
         function wyswietl_kategorie() {
@@ -228,7 +228,7 @@
                 url: '@Url.Action("Get", "Kategorie")',
                 data: "a",
                 success: function (data) {
-                    debugger;
+                    
                     for (i = 0; i < data.length; i++) {
                         kategorie[i] = data[i];
                     }
@@ -250,7 +250,7 @@
                 url: '@Url.Action("Get", "Autorzy")',
                 data: "a",
                 success: function (data) {
-                    debugger;
+                    
                     for (i = 0; i < data.length; i++) {
                         autorzy[i] = data[i];
                     }

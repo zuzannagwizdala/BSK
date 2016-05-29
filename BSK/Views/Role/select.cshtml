@@ -102,8 +102,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -202,7 +202,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
             var role = new Array();
 
@@ -214,11 +214,11 @@
                     for (i = 0; i < data.length; i++) {
                         role[i] = data[i];
                     }
-                    debugger;
+                    
                     var lista = "<table>";
                     for (i = 0; i < role.length ; i++) {
                         lista += "<tr>";
-                        debugger;
+                        
                         lista += "<td><b>" +role[i].Nazwa + ", ID: " + role[i].ID_Roli.toString() + "</b></td></tr>";
                        // lista += "<ul><h5>Nazwa tabeli - Instrukcja</h5></ul>";
                         for (j = 0; j < role[i].Uprawnienie_Rola.length; j++) {

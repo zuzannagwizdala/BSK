@@ -150,8 +150,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -250,7 +250,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
         }
         function func() {
@@ -283,7 +283,7 @@
             for (i = 0; i < wartosci.length; i++) {
                 uprawnienia += wartosci[i].id.toString() + "-";
             }
-            debugger;
+            
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Post", "Role")',

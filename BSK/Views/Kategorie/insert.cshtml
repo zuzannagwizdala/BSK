@@ -111,8 +111,8 @@
             tablica_uprawnien.pop();
             for (i = 0; i < tablica_uprawnien.length; i++)
             {
-                var adres = @Url.Action("Index", "Home");
-                debugger;
+                var adres = "";
+                
                 var link = '<a style="color:white;" href="';
 
                 var instrukcja_tabela = tablica_uprawnien[i].split(".");
@@ -211,7 +211,7 @@
                 }
                 document.getElementById(tablica_uprawnien[i]).innerHTML = link;
                 document.getElementById(tablica_uprawnien[i]).style.color = "white";
-                debugger;
+                
             }
         }
         function func() {
@@ -225,7 +225,7 @@
                     for (i = 0; i < data.length; i++) {
                         kategorie[i] = data[i];
                     }
-                    debugger;
+                    
                     var lista = "<li>ID - Nazwa - Opis</li>";
                     for (i = 0; i < kategorie.length ; i++) {
                         lista += "<li>";
@@ -237,7 +237,7 @@
             });
         }
         function dodaj() {
-            debugger;
+            
             var nazwa = document.getElementById("nazwa").value;
             var opis = document.getElementById("opis").value;
 
