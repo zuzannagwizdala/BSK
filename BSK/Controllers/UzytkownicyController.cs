@@ -41,37 +41,7 @@ namespace BSK.Controllers
             ViewBag.Message = Session["uprawnienia"];
             return View();
         }
-
-        /*[HttpPost]
-        [MyAuthorize(Roles = "uzytkownicy_select")]
-        public JsonResult GetUser(int id)
-        {
-            JsonResult odpowiedz = new JsonResult();
-            odpowiedz.Data = " ";
-
-            try
-            {
-                using (DB baza = new DB())
-                {
-                    var uzytkownik = baza.Uzytkownicy.FirstOrDefault(k => k.ID_Uzytkownika == id);
-                    uzytkownik.Haslo = null;
-                    foreach (var item in uzytkownik.Uzytkownik_Rola)
-                    {
-                        item.Uzytkownik = null;
-                        var role = baza.Rolee.FirstOrDefault(r => r.ID_Roli == item.ID_Roli);
-                        item.Rola = new Rola { ID_Roli = role.ID_Roli, Nazwa = role.Nazwa };
-                    }
-                    
-                    odpowiedz.Data = uzytkownik;
-                }
-            }
-            catch (Exception ex)
-            {
-                odpowiedz.Data = ex.InnerException.ToString();
-            }
-            return odpowiedz;
-        }*/
-
+        
         [HttpPost]
         [MyAuthorize(Roles = "uzytkownicy_select")]
         public JsonResult Get()
@@ -175,36 +145,6 @@ namespace BSK.Controllers
                         }
 
                     }
-                    baza.SaveChanges();
-
-                    /*if (value.Haslo != null)
-                    {
-                        user.Haslo = Models.Uzytkownik.sha256(value.Haslo);
-                    }
-
-                    var roleIds = value.Uzytkownik_Rola.Select(roPe => new { Id = roPe.Rola.ID_Roli });
-
-                    var userRoles = baza.Uzytkownicy_Role.Where(ur => ur.ID_Uzytkownika == user.ID_Uzytkownika).ToList();
-                    var urToRemove = new List<Uzytkownik_Rola>();
-                    foreach (var userRole in userRoles)
-                    {
-                        if (roleIds.All(r => r.Id != userRole.ID_Roli))
-                        {
-                            urToRemove.Add(userRole);
-                        }
-                    }
-                    baza.Uzytkownicy_Role.RemoveRange(urToRemove);
-                    var urToAdd = new List<Uzytkownik_Rola>();
-                    foreach (var userRole in value.Uzytkownik_Rola)
-                    {
-                        if (userRoles.All(r => r.ID_Roli != userRole.Rola.ID_Roli))
-                        {
-                            var role = baza.Rolee.FirstOrDefault(p => p.ID_Roli == userRole.Rola.ID_Roli);
-                            urToAdd.Add(new Uzytkownik_Rola { Uzytkownik = user, ID_Uzytkownika = user.ID_Uzytkownika, Rola = role, ID_Roli = role.ID_Roli });
-                        }
-                    }
-
-                    baza.Uzytkownicy_Role.AddRange(urToAdd);*/
                     baza.SaveChanges();
                     
                 }

@@ -37,28 +37,6 @@ namespace BSK.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        public JsonResult Get(int id)
-        {
-            JsonResult odpowiedz = new JsonResult();
-            odpowiedz.Data = " ";
-            try
-            {
-                using (DB baza = new DB())
-                {
-                    var uprawnienie = baza.Uprawnienia.FirstOrDefault(k => k.ID_Uprawnienia == id);
-                    uprawnienie.Uprawnienie_Rola.Clear();
-                    
-                    odpowiedz.Data = uprawnienie.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                odpowiedz.Data = ex.InnerException.ToString();
-            }
-            return odpowiedz;
-        }*/
-
         [HttpPost]
         public JsonResult Get()
         {

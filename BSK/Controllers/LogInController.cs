@@ -26,7 +26,7 @@ namespace BSK.Controllers
             {
                 List<Autor> autorzy = baza.Autorzy.ToList();
 
-                List<Uzytkownik> uzytkownicyWszystko = baza.Uzytkownicy.ToList(); //3
+                List<Uzytkownik> uzytkownicyWszystko = baza.Uzytkownicy.ToList();
                 List<Rola> roleWszystko = baza.Rolee.ToList();
 
                 List<Uprawnienie> uprawnieniaWszystko = baza.Uprawnienia.ToList();
@@ -141,7 +141,7 @@ namespace BSK.Controllers
                         else
                         //uzytkownik nie mial wczesniej sesji
                         {
-                            zawartoscOdpowiedzi.ID_Sesji = HttpContext.Session.SessionID;              //.Current.Session.SessionID;
+                            zawartoscOdpowiedzi.ID_Sesji = HttpContext.Session.SessionID;
                             baza.Sesje.Add(new Sesja
                             {
                                 ID_Roli = rola.ID_Roli,

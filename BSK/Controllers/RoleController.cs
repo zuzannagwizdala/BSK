@@ -160,33 +160,6 @@ namespace BSK.Controllers
                         
                     }
                     baza.SaveChanges();
-                    /*var role = baza.Rolee.FirstOrDefault(k => k.ID_Roli == value.ID_Roli);
-                    role.Nazwa = value.Nazwa;
-
-                    var roleIds = value.Uprawnienie_Rola.Select(roPe => new { Id = roPe.Uprawnienie.ID_Uprawnienia });
-
-                    var rolesPermissions = baza.Uprawnienia_Role.Where(rp => rp.ID_Roli == role.ID_Roli).ToList();
-                    var rpToRemove = new List<Uprawnienie_Rola>();
-                    foreach (var rolesPermission in rolesPermissions)
-                    {
-                        if (roleIds.All(r => r.Id != rolesPermission.ID_Uprawnienia))
-                        {
-                            rpToRemove.Add(rolesPermission);
-                        }
-                    }
-                    baza.Uprawnienia_Role.RemoveRange(rpToRemove);
-                    var rpToAdd = new List<Uprawnienie_Rola>();
-                    foreach (var rolesPermission in value.Uprawnienie_Rola)
-                    {
-                        if (rolesPermissions.All(r => r.ID_Uprawnienia != rolesPermission.Uprawnienie.ID_Uprawnienia))
-                        {
-                            var permission =
-                                baza.Uprawnienia.FirstOrDefault(p => p.ID_Uprawnienia == rolesPermission.Uprawnienie.ID_Uprawnienia);
-                            rpToAdd.Add(new Uprawnienie_Rola { Uprawnienie = permission, ID_Uprawnienia = permission.ID_Uprawnienia, Rola = role, ID_Roli = role.ID_Roli });
-                        }
-                    }
-                    baza.Uprawnienia_Role.AddRange(rpToAdd);
-                    baza.SaveChanges();*/
                 }
             }
             catch (Exception ex)

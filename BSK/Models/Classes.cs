@@ -206,23 +206,7 @@ namespace BSK.Models
     {
         public String ID_Sesji { get; set; }
     }
-
-    /*
-     public class DB : DbContext
-     {
-         public DB() : base(nameOrConnectionString: "MonkeyFist") { }
-         public DbSet<Autor> Autorzy { get; set; }
-         public DbSet<Kategoria> Kategorie { get; set; }
-         public DbSet<Ksiazka> Ksiazki { get; set; }
-         public DbSet<Uprawnienie> Uprawnienia { get; set; }
-         public DbSet<Rola> Rolee { get; set; }
-         public DbSet<Sesja> Sesje { get; set; }
-         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
-         public DbSet<Uzytkownik_Rola> Uzytkownicy_Role { get; set; }
-         public DbSet<Uprawnienie_Rola> Uprawnienia_Role { get; set; }
-     } 
-     */
-
+    
         
     public class NpgsqlConfiguration : System.Data.Entity.DbConfiguration
     {

@@ -41,33 +41,7 @@ namespace BSK.Controllers
             ViewBag.Message = Session["uprawnienia"];
             return View();
         }
-
-        /*[HttpPost]
-        [MyAuthorize(Roles = "ksiazki_select")]
-        public JsonResult Get(int id)
-        {
-            JsonResult odpowiedz = new JsonResult();
-            odpowiedz.Data = " ";
-            try
-            {
-                using (DB baza = new DB())
-                {
-                    var ksiazka = baza.Ksiazki.FirstOrDefault(k => k.ID_Ksiazki == id);
-                    ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
-                    ksiazka.Kategoria = new Kategoria { Nazwa = ksiazka.Kategoria.Nazwa };
-                    List<Ksiazka> ksiazki = new List<Ksiazka>();
-                    ksiazki.Add(ksiazka);
-
-                    odpowiedz.Data = ksiazki;
-
-                }
-            }
-            catch (Exception ex)
-            {
-                odpowiedz.Data = ex.InnerException.ToString();
-            }
-            return odpowiedz;
-        }*/
+        
 
         [HttpPost]
         [MyAuthorize(Roles = "ksiazki_select")]
@@ -82,12 +56,6 @@ namespace BSK.Controllers
                     var ksiazki = baza.Ksiazki;
                     var posortowane = ksiazki.OrderBy(a => a.ID_Ksiazki);
                     odpowiedz.Data = KonwertujKsiazki(posortowane);
-                    /*foreach (var ksiazka in ksiazki)
-                    {
-                        ksiazka.Autor = new Autor { Imie = ksiazka.Autor.Imie, Nazwisko = ksiazka.Autor.Nazwisko };
-                        ksiazka.Kategoria = new Kategoria { Nazwa = ksiazka.Kategoria.Nazwa };
-                    }
-                    odpowiedz.Data = ksiazki;*/
                 }
             }
             catch (Exception ex)

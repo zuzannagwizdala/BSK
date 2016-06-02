@@ -44,28 +44,7 @@ namespace BSK.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        [MyAuthorize(Roles = "autorzy_select")]
-        public JsonResult Get(int id)
-        {
-            JsonResult odpowiedz = new JsonResult();
-            odpowiedz.Data = " ";
-            try
-            {
-                using (DB baza = new DB())
-                {
-                    var autor = baza.Autorzy.FirstOrDefault(k => k.ID_Autora == id);
-                    List<Autor> autorzy = new List<Autor>();
-                    autorzy.Add(autor);
-                    odpowiedz.Data = autorzy;
-                }
-            }
-            catch (Exception ex)
-            {
-                odpowiedz.Data = ex.InnerException.ToString();
-            }
-            return odpowiedz;
-        }*/
+       
 
         [HttpPost]
         [MyAuthorize(Roles = "autorzy_select")]

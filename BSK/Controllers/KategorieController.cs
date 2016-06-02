@@ -41,26 +41,7 @@ namespace BSK.Controllers
             ViewBag.Message = Session["uprawnienia"];
             return View();
         }
-        /*[HttpPost]
-        [MyAuthorize(Roles = "kategorie_select")]
-        public JsonResult Get(int id)
-        {
-            JsonResult odpowiedz = new JsonResult();
-
-            try
-            {
-                using (DB baza = new DB())
-                {
-                    var kategoria = baza.Kategorie.FirstOrDefault(k => k.ID_Kategorii == id);
-                    odpowiedz.Data = kategoria.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                odpowiedz.Data = ex.InnerException.ToString();
-            }
-            return odpowiedz;
-        }*/
+       
         [HttpPost]
         [MyAuthorize(Roles = "kategorie_select")]
         public JsonResult Get()
